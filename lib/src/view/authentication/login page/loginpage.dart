@@ -80,9 +80,6 @@ class _LoginPageState extends State<LoginPage> {
                         ],
                       ),
                     ),
-                    SizedBox(
-                      height: 25,
-                    ),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 30),
                       child: Row(
@@ -138,7 +135,12 @@ class _LoginPageState extends State<LoginPage> {
                       height: 50,
                       width: 360,
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () async {
+                          if (_formKeyy.currentState!.validate()) {
+                            final email = _emailController.text;
+                            final passowrd = _passwordController.text;
+                          }
+                        },
                         style: ElevatedButton.styleFrom(
                           foregroundColor: Colors.white,
                           backgroundColor:

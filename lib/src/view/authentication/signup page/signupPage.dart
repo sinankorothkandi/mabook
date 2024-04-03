@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
 import 'package:mabook/src/view/authentication/login%20page/loginpage.dart';
 
 class signUpPage extends StatefulWidget {
@@ -16,6 +17,8 @@ class _LoginPageState extends State<signUpPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _usernamecontroller = TextEditingController();
+  final TextEditingController _ConfirmpasswordController =
+      TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +70,7 @@ class _LoginPageState extends State<signUpPage> {
                               ),
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
-                                  return 'Please enter a name';
+                                  return 'Please enter your name';
                                 }
                                 return null;
                               },
@@ -117,9 +120,7 @@ class _LoginPageState extends State<signUpPage> {
                         ],
                       ),
                     ),
-                    SizedBox(
-                      height: 25,
-                    ),
+
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 30),
                       child: Row(
@@ -157,23 +158,70 @@ class _LoginPageState extends State<signUpPage> {
                         ],
                       ),
                     ),
-                    SizedBox(
-                      height: 20,
+
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 30),
+                      child: Row(
+                        children: [
+                          SizedBox(
+                            height: 48,
+                            width: 47,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(10.0),
+                                bottomLeft: Radius.circular(10.0),
+                              ),
+                              child: Container(
+                                child: Icon(
+                                  Icons.lock_rounded,
+                                  color:
+                                      const Color.fromARGB(255, 104, 104, 104),
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 20),
+                          Expanded(
+                            child: TextFormField(
+                              controller: _ConfirmpasswordController,
+                              decoration: InputDecoration(
+                                labelText: 'Confirm Password',
+                                border: InputBorder.none,
+                              ),
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Please enter password again';
+                                }
+                                if (_ConfirmpasswordController.text !=
+                                    _passwordController.text) {
+                                  return 'please enter currect password';
+                                }
+                                return null;
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.check_box_outline_blank),
-                        SizedBox(
-                          width: 20,
-                        ),
-                        Text(
-                          'I agree to the medidoc Terms of services\n and Privacy Policy',
-                          style: TextStyle(
-                              color: const Color.fromARGB(255, 0, 0, 0)),
-                        ),
-                      ],
-                    ),
+                    //||===============this is check box of the privacy policy ============================||
+                    // SizedBox(
+                    //   height: 20,
+                    // ),
+                    // Row(
+                    //   mainAxisAlignment: MainAxisAlignment.center,
+                    //   children: [
+                    //     Icon(Icons.check_box_outline_blank),
+                    //     SizedBox(
+                    //       width: 20,
+                    //     ),
+                    //     Text(
+                    //       'I agree to the medidoc Terms of services\n and Privacy Policy',
+                    //       style: TextStyle(
+                    //           color: const Color.fromARGB(255, 0, 0, 0)),
+                    //     ),
+                    //   ],
+                    // ),
+                    //||====================================================================================||
                     SizedBox(
                       height: 20,
                     ),
@@ -181,7 +229,14 @@ class _LoginPageState extends State<signUpPage> {
                       height: 50,
                       width: 360,
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () async {
+                          if (_formKeyy.currentState!.validate()) {
+                            final userName = _usernamecontroller.text;
+                            final password = _passwordController.text;
+                            final email = _emailController.text;
+                            Get.to(() => LoginPage());
+                          }
+                        },
                         style: ElevatedButton.styleFrom(
                           foregroundColor: Colors.white,
                           backgroundColor:
@@ -190,15 +245,14 @@ class _LoginPageState extends State<signUpPage> {
                             borderRadius: BorderRadius.circular(10.0),
                           ),
                         ),
-                        child: Text('Sign Up'),
+                        child: Text('register'),
                       ),
                     ),
                     Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                       Text("Aldready have an account?"),
                       TextButton(
                           onPressed: () {
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (_) => LoginPage()));
+                            Get.to(() => LoginPage());
                           },
                           child: Text('Login'))
                     ]),
