@@ -1,8 +1,9 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, unused_local_variable, use_build_context_synchronously
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, unused_local_variable, use_build_context_synchronously, non_constant_identifier_names
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:mabook/src/view/authentication/authentication_fuction/signUn_Auth.dart';
 import 'package:mabook/src/view/authentication/login%20page/loginpage.dart';
 
 class signUpPage extends StatefulWidget {
@@ -14,11 +15,10 @@ class signUpPage extends StatefulWidget {
 
 class _LoginPageState extends State<signUpPage> {
   final GlobalKey<FormState> _formKeyy = GlobalKey<FormState>();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _usernamecontroller = TextEditingController();
-  final TextEditingController _ConfirmpasswordController =
-      TextEditingController();
+
+  String email = '';
+  String password = '';
+  String username = '';
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +63,7 @@ class _LoginPageState extends State<signUpPage> {
                           SizedBox(width: 20),
                           Expanded(
                             child: TextFormField(
-                              controller: _usernamecontroller,
+                              key: ValueKey('userName'),
                               decoration: InputDecoration(
                                 labelText: 'User Name',
                                 border: InputBorder.none,
@@ -73,6 +73,11 @@ class _LoginPageState extends State<signUpPage> {
                                   return 'Please enter your name';
                                 }
                                 return null;
+                              },
+                              onSaved: (Value) {
+                                setState(() {
+                                  username = Value!;
+                                });
                               },
                             ),
                           ),
@@ -100,7 +105,7 @@ class _LoginPageState extends State<signUpPage> {
                           SizedBox(width: 20),
                           Expanded(
                             child: TextFormField(
-                              controller: _emailController,
+                             key: ValueKey('email'),
                               decoration: InputDecoration(
                                 labelText: 'Email',
                                 border: InputBorder.none,
@@ -114,6 +119,11 @@ class _LoginPageState extends State<signUpPage> {
                                   return 'Invalid email format or domain';
                                 }
                                 return null;
+                              },
+                              onSaved: (Value) {
+                                setState(() {
+                                  email = Value!;
+                                });
                               },
                             ),
                           ),
@@ -142,7 +152,8 @@ class _LoginPageState extends State<signUpPage> {
                           SizedBox(width: 20),
                           Expanded(
                             child: TextFormField(
-                              controller: _passwordController,
+                              obscureText: true,
+                              key: ValueKey('password'),
                               decoration: InputDecoration(
                                 labelText: 'Password',
                                 border: InputBorder.none,
@@ -153,56 +164,62 @@ class _LoginPageState extends State<signUpPage> {
                                 }
                                 return null;
                               },
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 30),
-                      child: Row(
-                        children: [
-                          SizedBox(
-                            height: 48,
-                            width: 47,
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(10.0),
-                                bottomLeft: Radius.circular(10.0),
-                              ),
-                              child: Container(
-                                child: Icon(
-                                  Icons.lock_rounded,
-                                  color:
-                                      const Color.fromARGB(255, 104, 104, 104),
-                                ),
-                              ),
-                            ),
-                          ),
-                          SizedBox(width: 20),
-                          Expanded(
-                            child: TextFormField(
-                              controller: _ConfirmpasswordController,
-                              decoration: InputDecoration(
-                                labelText: 'Confirm Password',
-                                border: InputBorder.none,
-                              ),
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Please enter password again';
-                                }
-                                if (_ConfirmpasswordController.text !=
-                                    _passwordController.text) {
-                                  return 'please enter currect password';
-                                }
-                                return null;
+                              onSaved: (Value) {
+                                setState(() {
+                                  password = Value!;
+                                });
                               },
                             ),
                           ),
                         ],
                       ),
                     ),
+
+                    // Padding(
+                    //   padding: EdgeInsets.symmetric(horizontal: 30),
+                    //   child: Row(
+                    //     children: [
+                    //       SizedBox(
+                    //         height: 48,
+                    //         width: 47,
+                    //         child: ClipRRect(
+                    //           borderRadius: BorderRadius.only(
+                    //             topLeft: Radius.circular(10.0),
+                    //             bottomLeft: Radius.circular(10.0),
+                    //           ),
+                    //           child: Container(
+                    //             child: Icon(
+                    //               Icons.lock_rounded,
+                    //               color:
+                    //                   const Color.fromARGB(255, 104, 104, 104),
+                    //             ),
+                    //           ),
+                    //         ),
+                    //       ),
+                    //       SizedBox(width: 20),
+                    //       Expanded(
+                    //         child: TextFormField(
+                    //           obscureText: true,
+                    //           controller: _ConfirmpasswordController,
+                    //           decoration: InputDecoration(
+                    //             labelText: 'Confirm Password',
+                    //             border: InputBorder.none,
+                    //           ),
+                    //           validator: (value) {
+                    //             if (value == null || value.isEmpty) {
+                    //               return 'Please enter password again';
+                    //             }
+                    //             if (_ConfirmpasswordController.text !=
+                    //                 password) {
+                    //               return 'please enter currect password';
+                    //             }
+                    //             return null;
+                    //           },
+                    //         ),
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
                     //||===============this is check box of the privacy policy ============================||
                     // SizedBox(
                     //   height: 20,
@@ -231,10 +248,11 @@ class _LoginPageState extends State<signUpPage> {
                       child: ElevatedButton(
                         onPressed: () async {
                           if (_formKeyy.currentState!.validate()) {
-                            final userName = _usernamecontroller.text;
-                            final password = _passwordController.text;
-                            final email = _emailController.text;
-                            Get.to(() => LoginPage());
+                           
+                            _formKeyy.currentState!.save();
+                                 
+                            signUpFuction(email, password);
+                          
                           }
                         },
                         style: ElevatedButton.styleFrom(

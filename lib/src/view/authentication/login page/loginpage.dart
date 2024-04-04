@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:mabook/src/view/authentication/authentication_fuction/login_Auth.dart';
 import 'package:mabook/src/view/authentication/forgot%20pssword/forgotPassword.dart';
 import 'package:mabook/src/view/authentication/signup%20page/signupPage.dart';
 
@@ -14,8 +15,8 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final GlobalKey<FormState> _formKeyy = GlobalKey<FormState>();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
+  String email = '';
+  String password = '';
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +61,7 @@ class _LoginPageState extends State<LoginPage> {
                           SizedBox(width: 20),
                           Expanded(
                             child: TextFormField(
-                              controller: _emailController,
+                              key: ValueKey(email),
                               decoration: InputDecoration(
                                 labelText: 'Email',
                                 border: InputBorder.none,
@@ -74,6 +75,11 @@ class _LoginPageState extends State<LoginPage> {
                                   return 'Invalid email format or domain';
                                 }
                                 return null;
+                              },
+                               onSaved: (Value) {
+                                setState(() {
+                                  email = Value!;
+                                });
                               },
                             ),
                           ),
@@ -101,7 +107,7 @@ class _LoginPageState extends State<LoginPage> {
                           SizedBox(width: 20),
                           Expanded(
                             child: TextFormField(
-                              controller: _passwordController,
+                              key: ValueKey(password),
                               decoration: InputDecoration(
                                 labelText: 'Password',
                                 border: InputBorder.none,
@@ -111,6 +117,11 @@ class _LoginPageState extends State<LoginPage> {
                                   return 'Please enter a Password';
                                 }
                                 return null;
+                              },
+                              onSaved: (Value) {
+                                setState(() {
+                                  password = Value!;
+                                });
                               },
                             ),
                           ),
@@ -137,8 +148,9 @@ class _LoginPageState extends State<LoginPage> {
                       child: ElevatedButton(
                         onPressed: () async {
                           if (_formKeyy.currentState!.validate()) {
-                            final email = _emailController.text;
-                            final passowrd = _passwordController.text;
+                            _formKeyy.currentState!.save();
+                            signIn(email, password);
+                            
                           }
                         },
                         style: ElevatedButton.styleFrom(

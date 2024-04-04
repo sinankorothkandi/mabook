@@ -6,13 +6,12 @@ import 'package:mabook/src/view/splashscreen.dart';
 
 // ...
 
-Future<void>
- main()  async {
+Future<void> main() async {
   runApp(const MyApp());
 
-await Firebase.initializeApp(
+  await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
-);
+  );
 // .then((FirebaseApp value) => Get.put(AuthenticationRepository()))
 }
 
@@ -22,7 +21,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const GetMaterialApp(
-      home:SplashScreen(),
+      debugShowCheckedModeBanner: false,
+      home: SplashScreen(),
     );
   }
 }

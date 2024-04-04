@@ -7,11 +7,13 @@ environment:
   sdk: '>=3.3.1 <4.0.0'
 
 dependencies:
+  firebase_auth: ^4.19.0
   firebase_core: ^2.28.0
   flutter:
     sdk: flutter
   get: ^4.6.6
   get_storage: ^2.1.1
+  shared_preferences: ^2.2.2
   smooth_page_indicator: ^1.1.0
 
 dev_dependencies:
