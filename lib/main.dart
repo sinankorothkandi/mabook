@@ -2,17 +2,18 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mabook/firebase_options.dart';
+import 'package:mabook/src/view/authentication/AuthenticationRepository/google_signin.dart';
 import 'package:mabook/src/view/splashscreen.dart';
 
 // ...
 
 Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
-  );
-// .then((FirebaseApp value) => Get.put(AuthenticationRepository()))
+  ).then((FirebaseApp value) => Get.put(AuthenticationRepository()));
 }
 
 class MyApp extends StatelessWidget {

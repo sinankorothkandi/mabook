@@ -1,0 +1,79 @@
+// ignore_for_file: avoid_print, unused_local_variable, duplicate_ignore
+
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:mabook/src/model/Sign_Model.dart';
+import 'package:mabook/src/view/home/home.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+
+
+
+// signIn(String email, String password)async{
+//   try {
+//   final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+//     email: email,
+//     password: password
+//   );
+//   setLoggedIn();
+//   print("//////////Success////////");
+//    Get.to(() =>const homePage());
+// } on FirebaseAuthException catch (e) {
+//   if (e.code == 'user-not-found') {
+//     print('No user found for that email.');
+//   } else if (e.code == 'wrong-password') {
+//     print('Wrong password provided for that user.');
+//   }
+// }
+// }
+class signIncontroller extends GetxController{
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+    final signInModel = UserModel(email: '', password: '');
+
+
+
+ Future<void> signIn() async {
+    if (formKey.currentState!.validate()) {
+      formKey.currentState!.save();
+
+      try {
+        // Sign in the user with Firebase Authentication
+        final userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: emailController.text.trim(),
+          password: passwordController.text.trim(),
+        );
+
+        final userSnapshot = await FirebaseFirestore.instance
+            .collection('users')
+            .doc(userCredential.user!.uid)
+            .get();
+
+        final userData = userSnapshot.data();
+        // print the user data
+        // ignore: avoid_print
+        print('User Data: $userData');
+
+        // Navigate to the home page after successful sign-in
+        Get.offAll(const homePage());
+      } catch (error) {
+        // Handle sign-in error
+        // ignore: avoid_print
+        print('Sign-in failed: $error');
+        Get.snackbar(
+          'Error',
+          'Sign-in failed. Please check your credentials and try again.',
+          snackPosition: SnackPosition.BOTTOM,
+        );
+      }
+    }
+  }
+
+ void setLoggedIn() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool("isLoggedIn", true);
+  }
+}
