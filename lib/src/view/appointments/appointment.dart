@@ -1,16 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:mabook/src/view/const/bottomNavebar.dart';
 import 'package:mabook/src/view/const/colors.dart';
 
-class appoinments extends StatefulWidget {
-  const appoinments({super.key});
+class Appoinments extends StatelessWidget {
+  const Appoinments({super.key});
 
-  @override
-  State<appoinments> createState() => _homePageState();
-}
-
-class _homePageState extends State<appoinments> {
-  int currentIndex = 2;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,13 +51,7 @@ class _homePageState extends State<appoinments> {
           )
         ],
       ),
-      bottomNavigationBar: CustomBottomNavigationBar(
-          currentIndex: currentIndex,
-          onTap: (index) {
-            setState(() {
-              currentIndex = index;
-            });
-          }),
+ 
     );
   }
 

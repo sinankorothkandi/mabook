@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mabook/src/controller/login&signin/signUn_Auth.dart';
 
 import 'package:mabook/src/view/authentication/signup%20page/signupPage.dart';
 
@@ -11,10 +12,9 @@ class forgotPassword extends StatefulWidget {
 }
 
 class _introState extends State<forgotPassword> {
-  final TextEditingController _emailController = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
+    final ctrl = Get.put(AuthController());
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
@@ -81,7 +81,7 @@ class _introState extends State<forgotPassword> {
                                 bottomLeft: Radius.circular(10.0),
                               ),
                               child: Icon(
-                                Icons.call_end_outlined,
+                                Icons.email_outlined,
                                 color: Color.fromARGB(255, 96, 96, 96),
                               ),
                             ),
@@ -89,9 +89,9 @@ class _introState extends State<forgotPassword> {
                           const SizedBox(width: 20),
                           Expanded(
                             child: TextFormField(
-                              controller: _emailController,
+                              controller: ctrl.resetPassword,
                               decoration: const InputDecoration(
-                                labelText: '+91 ',
+                                labelText: 'Enter mail',
                                 border: InputBorder.none,
                               ),
                               validator: (value) {
@@ -120,7 +120,7 @@ class _introState extends State<forgotPassword> {
                 width: 160,
                 child: ElevatedButton(
                   onPressed: () {
-                    Get.to(() => const signUpPage());
+                    ctrl.passwordReset();
                   },
                   style: ElevatedButton.styleFrom(
                     foregroundColor: Colors.white,

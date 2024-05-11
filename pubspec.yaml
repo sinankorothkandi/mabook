@@ -9,13 +9,23 @@ environment:
 dependencies:
   carousel_slider: ^4.2.1
   cloud_firestore: ^4.16.0
+  crystal_navigation_bar: ^1.0.0
+  enefty_icons: ^1.0.7
+  firebase_app_check: ^0.2.2+5
   firebase_auth: ^4.19.0
   firebase_core: ^2.28.0
+  firebase_storage: ^11.7.5
   flutter:
     sdk: flutter
+  font_awesome_flutter: ^10.7.0
   get: ^4.6.6
   get_storage: ^2.1.1
+  google_fonts: ^6.2.1
   google_sign_in: ^6.2.1
+  image_picker: ^1.1.1
+  intl: ^0.19.0
+  multi_image_picker: ^4.8.01
+  redacted: ^1.0.11
   shared_preferences: ^2.2.2
   smooth_page_indicator: ^1.1.0
 

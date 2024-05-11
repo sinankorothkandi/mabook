@@ -70,6 +70,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '479536336375',
     projectId: 'mabook-ea750',
     storageBucket: 'mabook-ea750.appspot.com',
+    androidClientId: '479536336375-k7dqd5s0k7mb3vp0ivat0n789ojahvrg.apps.googleusercontent.com',
     iosClientId: '479536336375-pnnvee6cfvcac98m8lcj85924fne856d.apps.googleusercontent.com',
     iosBundleId: 'com.example.mabook',
   );

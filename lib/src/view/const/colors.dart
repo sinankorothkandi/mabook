@@ -9,3 +9,4 @@ const orenge = Color.fromARGB(255, 222, 136, 7);
 const red = Color.fromARGB(255, 224, 23, 23);
 const bodygrey = Color.fromARGB(255, 33, 33, 33);
 const itemgrey = Color.fromARGB(255, 48, 48, 48);
+const bodyblack = Color.fromARGB(255, 22, 22, 22);

@@ -1,24 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:mabook/src/view/const/bottomNavebar.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:mabook/src/view/const/colors.dart';
 
-class chat_Home extends StatefulWidget {
-  const chat_Home({super.key});
+class ChatHome extends StatelessWidget {
+  const ChatHome({super.key});
 
-  @override
-  State<chat_Home> createState() => _chat_HomeState();
-}
-
-class _chat_HomeState extends State<chat_Home> {
-  int currentIndex = 2;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text(
-          "Message",
-          style: TextStyle(fontWeight: FontWeight.bold),
+        automaticallyImplyLeading: false,
+        title: Text(
+          "  Messages",
+          style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
         ),
         actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.search))],
       ),
@@ -58,13 +53,6 @@ class _chat_HomeState extends State<chat_Home> {
           )
         ],
       ),
-      bottomNavigationBar: CustomBottomNavigationBar(
-          currentIndex: currentIndex,
-          onTap: (index) {
-            setState(() {
-              currentIndex = index;
-            });
-          }),
     );
   }
 

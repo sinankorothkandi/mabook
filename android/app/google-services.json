@@ -7,6 +7,50 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:479536336375:android:98c4bcaf71eb0a824632f2",
+        "android_client_info": {
+          "package_name": "com.example.hospital_managment"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "479536336375-k7dqd5s0k7mb3vp0ivat0n789ojahvrg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.hospital_managment",
+            "certificate_hash": "795e38e5ae6aadc2af1f9a33e98040687b19564a"
+          }
+        },
+        {
+          "client_id": "479536336375-7it5dfb3eeiu23b0k9lgm8n77tqhkouh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDxJw8JeAMvA9lOjcBI_-HL94emyz4Q_6A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "479536336375-7it5dfb3eeiu23b0k9lgm8n77tqhkouh.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "479536336375-89v54fsbmbg6kl82q45qev44gdagt223.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.hospitalManagment"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:479536336375:android:a6a655e9a3ec33d14632f2",
         "android_client_info": {
           "package_name": "com.example.mabook"
@@ -31,10 +75,10 @@
               "client_type": 3
             },
             {
-              "client_id": "479536336375-pnnvee6cfvcac98m8lcj85924fne856d.apps.googleusercontent.com",
+              "client_id": "479536336375-89v54fsbmbg6kl82q45qev44gdagt223.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.example.mabook"
+                "bundle_id": "com.example.hospitalManagment"
               }
             }
           ]
