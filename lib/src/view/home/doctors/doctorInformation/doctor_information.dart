@@ -48,6 +48,10 @@ class DoctorInformation extends StatelessWidget {
               profileSection(profilePath, doctorData),
               const SizedBox(height: 46),
               detailsDisplay(doctorData),
+              Padding(
+                padding: const EdgeInsets.only(top: 250),
+                child: bookappointment(doctorData),
+              )
             ],
           ),
         ),

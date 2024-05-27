@@ -7,16 +7,16 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:mabook/src/model/user_information_model.dart';
 import 'package:mabook/src/view/const/bottom_navebar.dart';
-import 'package:mabook/src/view/home/home.dart';
-import 'package:mabook/src/view/profile/personal%20details/details_adding.dart';
+import 'package:mabook/src/view/home/home/home.dart';
+import 'package:mabook/src/view/authentication/personal%20details/details_adding.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthController extends GetxController {
   FirebaseAuth auth = FirebaseAuth.instance;
   FirebaseFirestore db = FirebaseFirestore.instance;
-  TextEditingController userName = TextEditingController();
+  TextEditingController users = TextEditingController();
   TextEditingController email = TextEditingController();
-  TextEditingController password = TextEditingController();
+  TextEditingController passwordc = TextEditingController();
   TextEditingController loginEmail = TextEditingController();
   TextEditingController loginPassword = TextEditingController();
   TextEditingController resetPassword = TextEditingController();
@@ -62,7 +62,8 @@ class AuthController extends GetxController {
     }
     try {
       UserCredential userCredential = await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(email: userEmail, password: password);
+          .createUserWithEmailAndPassword(
+              email: userEmail, password: passwordc.text);
       Get.to(const UserDetailsAdd());
       await userCredential.user!.sendEmailVerification();
       User? user = userCredential.user;
@@ -72,7 +73,7 @@ class AuthController extends GetxController {
         username.value = userName;
 
         await addUser(userModele(
-            userName: userName, email: email.text, password: password));
+            userName: users.text, email: email.text, password: password));
         return user;
       }
     } on FirebaseAuthException catch (e) {
@@ -113,7 +114,7 @@ class AuthController extends GetxController {
     if (isEmailVerified.value) {
       Get.snackbar('Success', 'Email Successfully Verified.',
           snackPosition: SnackPosition.BOTTOM);
-      Get.offAll(() => const UserDetailsAdd());
+      // Get.offAll(() => const UserDetailsAdd());
     } else {
       Get.snackbar('Error', 'Please verify your email. Check your mail',
           colorText: Colors.red, snackPosition: SnackPosition.BOTTOM);
@@ -121,12 +122,7 @@ class AuthController extends GetxController {
   }
 
   addUser(userModele user) async {
-    await db
-        .collection("users")
-        .doc(auth.currentUser!.uid)
-        // .collection("profile")
-        .set(user.toMap());
-    print('#---------------${auth.currentUser?.uid}');
+    await db.collection("users").doc(auth.currentUser!.uid).set(user.toMap());
   }
 
   signOut() async {
@@ -249,7 +245,7 @@ class AuthController extends GetxController {
                 if (newUser != null) {
                   await db.collection('users').doc(newUser.uid).set({
                     'phoneNumber': newUser.phoneNumber,
-                    'name': userName.text,
+                    'name': users.text,
                     'createdAt': Timestamp.now(),
                   });
                 }
@@ -304,14 +300,14 @@ class AuthController extends GetxController {
   }
 
   saveUserNameNum() async {
-    if (userName.text.isEmpty) {
+    if (users.text.isEmpty) {
       Get.snackbar("Error", "Please enter a username",
           snackPosition: SnackPosition.BOTTOM);
       return;
     }
     if (auth.currentUser!.displayName == null) {
       print("====================================");
-      await auth.currentUser!.updateDisplayName(userName.text);
+      await auth.currentUser!.updateDisplayName(users.text);
       Get.snackbar("Success", "username has been saved",
           snackPosition: SnackPosition.BOTTOM);
 

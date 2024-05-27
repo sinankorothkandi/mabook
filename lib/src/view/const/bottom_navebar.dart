@@ -2,11 +2,12 @@ import 'package:crystal_navigation_bar/crystal_navigation_bar.dart';
 import 'package:enefty_icons/enefty_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:mabook/src/view/appointments/appointment.dart';
+import 'package:mabook/src/view/chat/chat_page.dart';
 import 'package:mabook/src/view/chatScreens/chat_home.dart';
 import 'package:mabook/src/view/search%20screen/search_screen.dart';
 import 'package:mabook/src/view/const/colors.dart';
-import 'package:mabook/src/view/home/home.dart';
-import 'package:mabook/src/view/profile/mainprofile.dart';
+import 'package:mabook/src/view/home/home/home.dart';
+import 'package:mabook/src/view/profile/profile%20screen/mainprofile.dart';
 
 class CustomBottomNavigationBar extends StatefulWidget {
   const CustomBottomNavigationBar({
@@ -23,8 +24,11 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
 
   final List<Widget> _pages = [
     const HomePage(),
-    const SearchScreen(),
+    const SearchScreen(
+      autoFocus: false,
+    ),
     const ChatHome(),
+    // const ChatPage(),
     const Appoinments(),
     const ProfileList(),
   ];

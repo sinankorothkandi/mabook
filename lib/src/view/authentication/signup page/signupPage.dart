@@ -9,7 +9,7 @@ import 'package:mabook/src/view/authentication/login%20page/loginpage.dart';
 import 'package:mabook/src/view/authentication/signup%20page/email_verification.dart';
 import 'package:mabook/src/view/const/bottom_navebar.dart';
 import 'package:mabook/src/view/const/colors.dart';
-import 'package:mabook/src/view/profile/personal%20details/details_adding.dart';
+import 'package:mabook/src/view/authentication/personal%20details/details_adding.dart';
 
 class signUpPage extends StatefulWidget {
   const signUpPage({super.key});
@@ -73,7 +73,7 @@ class _LoginPageState extends State<signUpPage> {
                 SizedBox(width: 20),
                 Expanded(
                   child: TextFormField(
-                    controller: ctrl.userName,
+                    controller: ctrl.users,
                     key: ValueKey('userName'),
                     decoration: InputDecoration(
                       labelText: 'User Name',
@@ -166,7 +166,7 @@ class _LoginPageState extends State<signUpPage> {
                       }
                       return null;
                     },
-                    controller: ctrl.password,
+                    controller: ctrl.passwordc,
                   ),
                 ),
               ],
@@ -183,7 +183,7 @@ class _LoginPageState extends State<signUpPage> {
               children: [
                 Checkbox(
                   checkColor: green,
-                  fillColor: MaterialStateProperty.all<Color>(white),
+                  fillColor: WidgetStateProperty.all<Color>(white),
                   value: isAgree,
                   onChanged: (value) {
                     setState(() {
@@ -216,16 +216,16 @@ class _LoginPageState extends State<signUpPage> {
                     return;
                   }
                   ctrl.signUp(
-                      userName: ctrl.userName.text,
+                      userName: ctrl.users.text,
                       userEmail: ctrl.email.text,
-                      password: ctrl.password.text,
+                      password: ctrl.passwordc.text,
                       context: context);
                 } else {
                   return;
                 }
 
                 if (ctrl.auth.currentUser != null) {
-                  Get.to(() => UserDetailsAdd());
+                  // Get.to(() => UserDetailsAdd());
                 }
               },
               style: ElevatedButton.styleFrom(

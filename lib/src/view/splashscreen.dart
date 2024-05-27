@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mabook/src/view/const/bottom_navebar.dart';
-import 'package:mabook/src/view/home/home.dart';
+import 'package:mabook/src/view/home/home/home.dart';
 import 'package:mabook/src/view/indroduction/intro/intro.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

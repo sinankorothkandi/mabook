@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:mabook/src/view/const/bottom_navebar.dart';
+import 'package:get/get.dart';
+import 'package:mabook/src/controller/helth_article_controller.dart';
 import 'package:mabook/src/view/const/colors.dart';
-import 'package:mabook/src/view/profile/profile_widgets.dart';
+import 'package:mabook/src/view/profile/profile%20screen/profile_widgets.dart';
 
 class ProfileList extends StatelessWidget {
   const ProfileList({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final HealthArticleController ctrl = Get.put(HealthArticleController());
+    // print(ctrl.heltharticle);
     return Scaffold(
       backgroundColor: green,
       body: Column(
@@ -32,7 +35,7 @@ class ProfileList extends StatelessWidget {
           const SizedBox(
             height: 70,
           ),
-          profile_Item_List(context)
+          ProfileItemList(context, ctrl)
         ],
       ),
     );

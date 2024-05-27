@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mabook/src/view/appointments/make%20appointment/make_appointment.dart';
 import 'package:mabook/src/view/const/colors.dart';
 
 Row profileSection(profilePath, Map<String, dynamic> doctorData) {
@@ -122,25 +124,6 @@ Column detailsDisplay(Map<String, dynamic> doctorData) {
       ),
       const SizedBox(height: 16),
       Text(
-        'Consultancy Fees',
-        style: GoogleFonts.poppins(
-          fontSize: 17,
-          fontWeight: FontWeight.w500,
-          color: black,
-        ),
-      ),
-      const SizedBox(height: 8),
-      Text(
-        doctorData.containsKey("consultancyfees")
-            ? doctorData["consultancyfees"].toString()
-            : "N/A",
-        style: GoogleFonts.poppins(
-          fontSize: 15,
-          color: grey,
-        ),
-      ),
-      const SizedBox(height: 16),
-      Text(
         'Professional Bio',
         style: GoogleFonts.poppins(
           fontSize: 17,
@@ -162,23 +145,20 @@ Column detailsDisplay(Map<String, dynamic> doctorData) {
 
 //===================================================================================
 
-SizedBox editbutton() {
+SizedBox bookappointment(Map<String, dynamic> doctorData) {
   return SizedBox(
-    width: 350,
-    height: 50,
+    width: 365,
+    height: 55,
     child: ElevatedButton(
       onPressed: () {
-        // if (stafcontroller.staffFormKey.currentState!
-        //     .validate()) {
-        //   stafcontroller.addStaffToFirebase(context);
-        // }
+        Get.to(() => AppointmentScreen(doctorData: doctorData));
       },
       style: ElevatedButton.styleFrom(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(19)),
         backgroundColor: green,
       ),
       child: const Text(
-        "Edit",
+        "Book Appointment",
         style: TextStyle(color: white, fontSize: 18),
       ),
     ),

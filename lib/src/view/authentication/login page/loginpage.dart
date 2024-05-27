@@ -7,7 +7,7 @@ import 'package:mabook/src/view/authentication/AuthenticationRepository/google_s
 import 'package:mabook/src/view/authentication/forgot%20pssword/forgotPassword.dart';
 import 'package:mabook/src/view/authentication/signup%20page/signupPage.dart';
 import 'package:mabook/src/view/const/colors.dart';
-import 'package:mabook/src/view/home/home.dart';
+import 'package:mabook/src/view/home/home/home.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});

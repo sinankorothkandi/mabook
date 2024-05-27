@@ -3,11 +3,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mabook/src/view/authentication/login%20page/loginpage.dart';
+import 'package:mabook/src/view/chat/chat_page.dart';
 import 'package:mabook/src/view/const/colors.dart';
-import 'package:mabook/src/view/profile/personal%20details/details_adding.dart';
+import 'package:mabook/src/view/authentication/personal%20details/details_adding.dart';
+import 'package:mabook/src/view/profile/profile%20items/personal_details/personal_details.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-Container profile_Item_List(BuildContext context) {
+Container ProfileItemList(BuildContext context, ctrl) {
   return Container(
     height: MediaQuery.of(context).size.height * 0.6,
     width: double.infinity,
@@ -25,7 +27,7 @@ Container profile_Item_List(BuildContext context) {
           ),
           ListTile(
             onTap: () {
-              Get.to(() => const UserDetailsAdd());
+              Get.to(() => UserDetailsScreen());
             },
             leading: const Icon(Icons.person_outline_outlined, color: green),
             title: const Text(
@@ -35,7 +37,11 @@ Container profile_Item_List(BuildContext context) {
             trailing: const Icon(Icons.navigate_next, color: green),
           ),
           ListTile(
-            onTap: () {},
+            onTap: () {
+              Get.to(
+                const ChatPage(),
+              );
+            },
             leading: const Icon(Icons.list_alt_rounded, color: green),
             title: const Text(
               'appointments',

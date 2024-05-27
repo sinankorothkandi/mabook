@@ -1,21 +1,26 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-class HospitalCollection extends GetxController{
-   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+class HospitalDetailsController extends GetxController {
+  final hospitalDetails = {}.obs;
 
-  // Rx stream to manage doctor data
-  final Rx<Stream<QuerySnapshot>> doctorStream = Rx<Stream<QuerySnapshot>>(
-    FirebaseFirestore.instance.collection('hospitalDetails').snapshots(),
-  );
+  @override
+  void onInit() {
+    super.onInit();
+    fetchHospitalDetails();
+  }
 
-  // Method to delete a doctor by document ID
-  Future<void> deleteDoctor(String docId) async {
-    try {
-      await _firestore.collection('hospitalDetails').doc(docId).delete();
-      print("Doctor deleted successfully.");
-    } catch (e) {
-      print("Error deleting doctor: $e");
-    }
+  void fetchHospitalDetails() {
+    FirebaseFirestore.instance
+        .collection('hospitalDetails')
+        .doc('unique_document_id')
+        .snapshots()
+        .listen((snapshot) {
+      if (snapshot.exists) {
+        hospitalDetails.value = snapshot.data()!;
+      } else {
+        hospitalDetails.value = {};
+      }
+    });
   }
 }

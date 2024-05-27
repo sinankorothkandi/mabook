@@ -5,7 +5,9 @@ import 'package:get/get.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:mabook/src/model/user_information_model.dart';
+import 'package:mabook/src/view/const/bottom_navebar.dart';
 
 class UserDetailsController extends GetxController {
   Rx<DateTime?> dob = Rx<DateTime?>(null);
@@ -22,10 +24,11 @@ class UserDetailsController extends GetxController {
   Rx<TextEditingController> addressController = TextEditingController().obs;
   Rx<TextEditingController> doctorController = TextEditingController().obs;
 
-  RxList<String> imageUrls = <String>[].obs;
+  String imageUrls = '';
   Rx<File?> imageFile = Rx<File?>(null);
 
   RxString dropdownValue = 'One'.obs;
+
 
   void setDropdownValue(String newValue) {
     dropdownValue.value = newValue;
@@ -60,7 +63,7 @@ class UserDetailsController extends GetxController {
       final result = await ref.putFile(imageFile);
       final fileUrl = await result.ref.getDownloadURL();
 
-      imageUrls.add(fileUrl);
+      imageUrls=fileUrl;
     } catch (e) {
       Get.snackbar(
         "Error",
@@ -97,44 +100,67 @@ class UserDetailsController extends GetxController {
     return pickedDate;
   }
 
-  Future<void> adduserDetails() async {
-    print('fghfgjh-----------------------${auth.currentUser!.uid}');
-    if (userFormKey.currentState!.validate()) {
-      try {
-        final userData = userModele(
-          id: '',
-        
-          name: nameController.value.text,
-          number: numberController.value.text,
-          address: addressController.value.text,
-          bloodGroup: bloodGroupController.value.text,
-          gender: dropdownValue.value == 'One' ? 'Male' : 'Female',
-          dob: dob.value?.toString() ?? '',
-          imageUrls: imageUrls.toString(),
-        );
+ Future<void> addUserDetails() async {
+  String dateOfBirth = DateFormat('dd-MMM-yyyy').format(dob.value!);
 
-        print("Attempting to save user details to Firestore.");
+  if (userFormKey.currentState!.validate()) {
+    try {
+      String uid = auth.currentUser!.uid;
+      DocumentSnapshot document = await FirebaseFirestore.instance.collection('users').doc(uid).get();
 
-        await _firestore
-            .collection("users")
-            .doc(auth.currentUser!.uid)
-            .update(userData.toMap());
-        print("Data successfully saved to Firestore.");
-
-        // clearFormControllers();
-      } catch (e) {
+      if (!document.exists) {
         Get.snackbar(
           'Error',
-          'Error adding hospital details: $e',
+          'No existing user data found.',
           snackPosition: SnackPosition.BOTTOM,
           backgroundColor: Colors.red,
         );
-        print("------------------------------------");
-        print(auth.currentUser?.uid);
-        print("Error adding to Firestore: $e");
+        return;
       }
+
+      Map<String, dynamic> existingData = document.data() as Map<String, dynamic>;
+      String email = existingData['email'] ?? '';
+      String password = existingData['password'] ?? '';
+      String userName = existingData['userName'] ?? '';
+
+      final userData = userModele(
+        id: uid,
+        name: nameController.value.text,
+        number: numberController.value.text,
+        address: addressController.value.text,
+        bloodGroup: bloodGroupController.value.text,
+        gender: dropdownValue.value == 'One' ? 'Male' : 'Female',
+        dob: dateOfBirth,
+        imageUrls: imageUrls.toString(),
+        email: email,      
+        password: password, 
+        userName: userName, 
+      );
+
+      print("Attempting to save user details to Firestore.");
+
+      await FirebaseFirestore.instance
+          .collection("users")
+          .doc(uid)
+          .update(userData.toMap());
+
+      print("Data successfully saved to Firestore.");
+      Get.to(const CustomBottomNavigationBar());
+      // clearFormControllers();
+    } catch (e) {
+      Get.snackbar(
+        'Error',
+        'Error adding user details: $e',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+      );
+      print("------------------------------------");
+      print("Error adding to Firestore: $e");
+      return;
     }
   }
+}
+
 
   void clearFormControllers() {
     numberController.value.clear();
