@@ -24,7 +24,7 @@ class HomePage extends StatelessWidget {
         return SingleChildScrollView(
           child: Column(
             children: [
-              SearchButton(),
+              searchButton(),
               streamBuilder(),
               const SizedBox(
                 height: 10,

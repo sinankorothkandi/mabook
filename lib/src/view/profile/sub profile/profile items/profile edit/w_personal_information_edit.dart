@@ -92,7 +92,7 @@ Padding savingBottun(UserDetailsController ctrl) {
             backgroundColor: green,
           ),
           child: const Text(
-            "Add Details",
+            "Edit Details",
             style: TextStyle(color: white, fontSize: 18),
           ),
         ),

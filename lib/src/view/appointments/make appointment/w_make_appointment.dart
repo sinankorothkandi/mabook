@@ -1,7 +1,9 @@
 import 'package:enefty_icons/enefty_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mabook/src/controller/appointmentcon.dart';
 import 'package:mabook/src/view/const/colors.dart';
 
 Row profileSection(profilePath, Map<String, dynamic> doctorData) {
@@ -48,7 +50,9 @@ Row profileSection(profilePath, Map<String, dynamic> doctorData) {
 
 //=====================================================================================
 
-Column detailsDisplay(Map<String, dynamic> doctorData) {
+Column detailsDisplay(
+    Map<String, dynamic> doctorData, selectedTokens, selectedDate) {
+  final AppoinmentController ctrl = Get.put(AppoinmentController());
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
@@ -70,7 +74,7 @@ Column detailsDisplay(Map<String, dynamic> doctorData) {
             width: 15,
           ),
           Text(
-            'date',
+            selectedDate.toString(),
             style: GoogleFonts.poppins(
               fontSize: 15,
               color: grey,
@@ -88,32 +92,35 @@ Column detailsDisplay(Map<String, dynamic> doctorData) {
         ),
       ),
       const SizedBox(height: 8),
-      ConstrainedBox(
-          // height: 45,
-          constraints: const BoxConstraints(minHeight: 45, maxHeight: 250),
-          child: TextFormField(
-            minLines: 1,
-            maxLines: null,
-            // controller: ctrl.bloodGroupController.value,
-            decoration: InputDecoration(
-              prefixIcon: const Icon(
-                EneftyIcons.edit_outline,
+      Form(
+        key: ctrl.appointmentFormKey,
+        child: ConstrainedBox(
+            // height: 45,
+            constraints: const BoxConstraints(minHeight: 45, maxHeight: 250),
+            child: TextFormField(
+              minLines: 1,
+              maxLines: null,
+              controller: ctrl.diseaseController.value,
+              decoration: InputDecoration(
+                prefixIcon: const Icon(
+                  EneftyIcons.edit_outline,
+                ),
+                contentPadding: const EdgeInsets.only(left: 30),
+                hintText: 'disease ',
+                hintStyle: GoogleFonts.poppins(color: grey, fontSize: 20),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: const BorderSide(color: green, width: 3),
+                ),
               ),
-              contentPadding: const EdgeInsets.only(left: 30),
-              hintText: 'disease ',
-              hintStyle: GoogleFonts.poppins(color: grey, fontSize: 20),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-                borderSide: const BorderSide(color: green, width: 3),
-              ),
-            ),
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter your disease';
-              }
-              return null;
-            },
-          )),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter your disease';
+                }
+                return null;
+              },
+            )),
+      ),
       const SizedBox(height: 16),
       Text(
         'Payment Detail',
@@ -214,14 +221,19 @@ Column detailsDisplay(Map<String, dynamic> doctorData) {
           color: black,
         ),
       ),
-      const SizedBox(height: 8),
-      Text(
-        '..........',
-        style: GoogleFonts.poppins(
-          fontSize: 15,
-          color: grey,
-        ),
-      ),
+      const SizedBox(height: 13),
+      Row(
+        children: [
+          const Icon(
+            Icons.radio_button_checked_rounded,
+            color: green,
+          ),
+          SizedBox(
+              height: 29,
+              width: 190,
+              child: Image.asset('assets/1_RAZORPAY_LOGO.webp'))
+        ],
+      )
     ],
   );
 }

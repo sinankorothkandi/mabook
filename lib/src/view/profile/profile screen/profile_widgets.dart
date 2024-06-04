@@ -5,8 +5,10 @@ import 'package:get/get.dart';
 import 'package:mabook/src/view/authentication/login%20page/loginpage.dart';
 import 'package:mabook/src/view/chat/chat_page.dart';
 import 'package:mabook/src/view/const/colors.dart';
-import 'package:mabook/src/view/authentication/personal%20details/details_adding.dart';
-import 'package:mabook/src/view/profile/profile%20items/personal_details/personal_details.dart';
+import 'package:mabook/src/view/profile/sub%20profile/help/help.dart';
+import 'package:mabook/src/view/profile/sub%20profile/privacy%20police/privacy_policy.dart';
+import 'package:mabook/src/view/profile/sub%20profile/profile%20items/personal_details/personal_details.dart';
+import 'package:mabook/src/view/profile/sub%20profile/terms%20and%20conditions/t_and_c.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 Container ProfileItemList(BuildContext context, ctrl) {
@@ -27,7 +29,7 @@ Container ProfileItemList(BuildContext context, ctrl) {
           ),
           ListTile(
             onTap: () {
-              Get.to(() => UserDetailsScreen());
+              Get.to(() => const UserDetailsScreen());
             },
             leading: const Icon(Icons.person_outline_outlined, color: green),
             title: const Text(
@@ -50,7 +52,10 @@ Container ProfileItemList(BuildContext context, ctrl) {
             trailing: const Icon(Icons.navigate_next, color: green),
           ),
           ListTile(
-            onTap: () {},
+            onTap: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (_) => const HelpScreen()));
+            },
             leading: const Icon(Icons.help_outline_sharp, color: green),
             title: const Text(
               'Helps',
@@ -69,7 +74,9 @@ Container ProfileItemList(BuildContext context, ctrl) {
             trailing: const Icon(Icons.navigate_next, color: green),
           ),
           ListTile(
-            onTap: () {},
+            onTap: () {
+              Get.to(() => const TermsandConditions());
+            },
             leading: const Icon(Icons.contact_page, color: green),
             title: const Text(
               'Terms & Conditions',
@@ -78,7 +85,9 @@ Container ProfileItemList(BuildContext context, ctrl) {
             trailing: const Icon(Icons.navigate_next, color: green),
           ),
           ListTile(
-            onTap: () {},
+            onTap: () {
+              Get.to(() => const PrivacyPolicyScreen());
+            },
             leading: const Icon(Icons.privacy_tip_outlined, color: green),
             title: const Text(
               'Privacy policy',

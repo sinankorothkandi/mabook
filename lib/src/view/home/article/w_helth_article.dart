@@ -15,14 +15,14 @@ class HealthArticlePage extends StatelessWidget {
       final HealthArticleController controller =
           Get.put(HealthArticleController());
 
-      return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 25),
-        child: SizedBox(
-          height: 200,
-          width: double.infinity,
-          child: Column(
-            children: [
-              Row(
+      return SizedBox(
+        height: 200,
+        width: double.infinity,
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Text(
@@ -41,9 +41,12 @@ class HealthArticlePage extends StatelessWidget {
                           style: TextStyle(color: green))),
                 ],
               ),
-              controller.healthArticles.isEmpty
-                  ? const Center(child: CircularProgressIndicator())
-                  : Expanded(
+            ),
+            controller.healthArticles.isEmpty
+                ? const Center(child: CircularProgressIndicator())
+                : Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
                       child: ListView.builder(
                         itemCount: articleCount,
                         itemBuilder: (context, index) {
@@ -67,9 +70,9 @@ class HealthArticlePage extends StatelessWidget {
                           );
                         },
                       ),
-                    )
-            ],
-          ),
+                    ),
+                  )
+          ],
         ),
       );
     });

@@ -145,22 +145,25 @@ Column detailsDisplay(Map<String, dynamic> doctorData) {
 
 //===================================================================================
 
-SizedBox bookappointment(Map<String, dynamic> doctorData) {
-  return SizedBox(
-    width: 365,
-    height: 55,
-    child: ElevatedButton(
-      onPressed: () {
-        Get.to(() => AppointmentScreen(doctorData: doctorData));
-      },
-      style: ElevatedButton.styleFrom(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(19)),
-        backgroundColor: green,
-      ),
-      child: const Text(
-        "Book Appointment",
-        style: TextStyle(color: white, fontSize: 18),
-      ),
-    ),
-  );
-}
+// Center bookappointment(Map<String, dynamic> doctorData) {
+//   return Center(
+//     child: SizedBox(
+//       width: 365,
+//       height: 55,
+//       child: ElevatedButton(
+//         onPressed: () {
+//           Get.to(() => AppointmentScreen(doctorData: doctorData));
+//         },
+//         style: ElevatedButton.styleFrom(
+//           shape:
+//               RoundedRectangleBorder(borderRadius: BorderRadius.circular(19)),
+//           backgroundColor: green,
+//         ),
+//         child: const Text(
+//           "Book Appointment",
+//           style: TextStyle(color: white, fontSize: 18),
+//         ),
+//       ),
+//     ),
+//   );
+// }

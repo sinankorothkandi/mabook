@@ -26,10 +26,12 @@ dependencies:
   image_picker: ^1.1.1
   intl: ^0.19.0
   multi_image_picker: ^4.8.01
+  razorpay_web: ^1.4.2
   redacted: ^1.0.11
   shared_preferences: ^2.2.2
   shimmer: ^3.0.0
   smooth_page_indicator: ^1.1.0
+  url_launcher: ^6.2.6
 
 dev_dependencies:
   flutter_test:

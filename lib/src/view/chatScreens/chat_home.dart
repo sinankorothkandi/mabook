@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mabook/firebase.dart';
 import 'package:mabook/src/controller/chatController.dart';
 import 'package:mabook/src/view/chat/chatting_screen/chatting_screen.dart';
 import 'package:mabook/src/view/const/colors.dart';

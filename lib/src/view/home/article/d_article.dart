@@ -78,7 +78,16 @@ class ArticleDetail extends StatelessWidget {
                   height: 15,
                 ),
                 Text(
-                  "To know more about this \n ${article.url}",
+                  "To know more about this ",
+                  style: GoogleFonts.poppins(
+                      fontSize: 16, fontWeight: FontWeight.w600),
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                Text(
+                  article.url,
+                  maxLines: 2,
                   style: GoogleFonts.poppins(fontSize: 16),
                 ),
               ],

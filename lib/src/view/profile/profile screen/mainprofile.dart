@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mabook/src/controller/helth_article_controller.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:mabook/src/controller/user_informatin_contrller.dart';
 import 'package:mabook/src/view/const/colors.dart';
+import 'package:mabook/src/view/const/shimmer_effect.dart';
 import 'package:mabook/src/view/profile/profile%20screen/profile_widgets.dart';
 
 class ProfileList extends StatelessWidget {
@@ -9,8 +11,8 @@ class ProfileList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final HealthArticleController ctrl = Get.put(HealthArticleController());
-    // print(ctrl.heltharticle);
+    final UserDetailsController ctrl = Get.put(UserDetailsController());
+
     return Scaffold(
       backgroundColor: green,
       body: Column(
@@ -19,18 +21,61 @@ class ProfileList extends StatelessWidget {
           const SizedBox(
             height: 60,
           ),
-          SizedBox(
-            height: 80,
-            width: 80,
-            child: Image.asset('assets/logo.png'),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          const Text(
-            'Elizabeth Blackwell',
-            style: TextStyle(
-                color: white, fontSize: 20, fontWeight: FontWeight.bold),
+          FutureBuilder<Map<String, dynamic>>(
+            future: ctrl.fetchUserData(),
+            builder: (BuildContext context,
+                AsyncSnapshot<Map<String, dynamic>> snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(
+                    child: Column(
+                  children: [
+                    CircleAvatar(
+                      radius: 50,
+                      backgroundColor: Color.fromARGB(255, 122, 122, 122),
+                      child: ShimmerEffect(),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    SizedBox(
+                      height: 20,
+                      width: 90,
+                      child: ShimmerEffect(),
+                    )
+                  ],
+                ));
+              }
+
+              if (!snapshot.hasData || snapshot.data == null) {
+                return const Center(child: Text('No user data found.'));
+              }
+              if (snapshot.hasError) {
+                return const Center(child: Icon(Icons.person));
+              }
+              final userData = snapshot.data!;
+              final String profileImageUrl = userData['imageUrls'];
+              final String userName = userData['name'];
+
+              return Column(
+                children: [
+                  CircleAvatar(
+                    radius: 50,
+                    backgroundColor: bodygrey,
+                    backgroundImage: NetworkImage(profileImageUrl),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Text(
+                    userName,
+                    style: GoogleFonts.poppins(
+                        color: white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600),
+                  ),
+                ],
+              );
+            },
           ),
           const SizedBox(
             height: 70,

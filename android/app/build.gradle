@@ -65,9 +65,4 @@ flutter {
     source '../..'
 }
 
-dependencies {
-    // implementation 'com.google.firebase:firebase-analytics'
-    // implementation 'com.google.firebase:firebase-firestore' 
-    // classpath 'com.google.gms:google-services:4.3.10'
-}
-// apply plugin: 'com.google.gms.google-services'
+dependencies {}

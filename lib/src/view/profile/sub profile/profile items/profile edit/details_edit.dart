@@ -6,7 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:mabook/src/controller/user_informatin_contrller.dart';
 import 'package:mabook/src/view/const/colors.dart';
-import 'package:mabook/src/view/profile/profile%20items/profile%20edit/w_personal_information_edit.dart';
+import 'package:mabook/src/view/profile/sub%20profile/profile%20items/profile%20edit/w_personal_information_edit.dart';
 
 class UserDetailsEdit extends StatelessWidget {
   final Map<String, dynamic> userData;

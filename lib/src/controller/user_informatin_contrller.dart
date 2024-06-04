@@ -15,6 +15,7 @@ class UserDetailsController extends GetxController {
   FirebaseAuth auth = FirebaseAuth.instance;
   FirebaseFirestore db = FirebaseFirestore.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+    // final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   final userFormKey = GlobalKey<FormState>();
 
@@ -28,6 +29,8 @@ class UserDetailsController extends GetxController {
   Rx<File?> imageFile = Rx<File?>(null);
 
   RxString dropdownValue = 'One'.obs;
+
+    
 
 
   void setDropdownValue(String newValue) {
@@ -99,7 +102,12 @@ class UserDetailsController extends GetxController {
     }
     return pickedDate;
   }
-
+ Future<Map<String, dynamic>> fetchUserData() async {
+      final uid = auth.currentUser!.uid;
+      final DocumentSnapshot userDoc =
+          await _firestore.collection('users').doc(uid).get();
+      return userDoc.data() as Map<String, dynamic>;
+    }
  Future<void> addUserDetails() async {
   String dateOfBirth = DateFormat('dd-MMM-yyyy').format(dob.value!);
 

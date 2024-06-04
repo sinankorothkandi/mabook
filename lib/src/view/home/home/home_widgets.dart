@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:enefty_icons/enefty_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -8,6 +9,7 @@ import 'package:mabook/src/view/const/colors.dart';
 import 'package:mabook/src/view/const/shimmer_effect.dart';
 import 'package:mabook/src/view/home/doctors/doctor.dart';
 import 'package:mabook/src/view/home/doctors/doctorInformation/doctor_information.dart';
+import 'package:mabook/src/view/home/hospital%20details/hospital_details.dart';
 import 'package:mabook/src/view/search%20screen/search_screen.dart';
 
 //========================CarouselSlider=======================||
@@ -22,13 +24,13 @@ StreamBuilder<DocumentSnapshot<Object?>> streamBuilder() {
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 40),
           child: ClipRRect(
-             borderRadius: BorderRadius.circular(10),
-             child: Container(
-              color:  grey,
-               height: 150,
-                  width: double.infinity,
-                  child: ShimmerEffect(),
-             ),
+            borderRadius: BorderRadius.circular(15),
+            child: Container(
+              color: grey,
+              height: 150,
+              width: double.infinity,
+              child: const ShimmerEffect(),
+            ),
           ),
         );
       }
@@ -97,7 +99,7 @@ StreamBuilder<DocumentSnapshot<Object?>> streamBuilder() {
 
 //=====================search Button ===========================||
 
-Padding SearchButton() {
+Padding searchButton() {
   return Padding(
     padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
     child: GestureDetector(
@@ -167,15 +169,19 @@ AppBar appBar() {
     ),
     actions: [
       IconButton(
-          onPressed: () {},
+          onPressed: () {
+            Get.to(() => const HospitalDetails(),
+                transition: Transition.upToDown);
+          },
           icon: const Icon(
-            Icons.local_hospital_outlined,
+            EneftyIcons.document_outline,
             color: Colors.black,
+            size: 26,
           )),
       IconButton(
           onPressed: () {},
           icon: const Icon(
-            Icons.notifications_none,
+            EneftyIcons.notification_bing_outline,
             color: Colors.black,
             size: 26,
           ))
@@ -213,7 +219,7 @@ Column topdoctor(DoctorController doctorController) {
         ),
       ),
       Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 25),
+        padding: const EdgeInsets.symmetric(horizontal: 20),
         child: SizedBox(
           height: 200,
           width: double.infinity,
@@ -223,7 +229,7 @@ Column topdoctor(DoctorController doctorController) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  itemCount: 3,
+                  itemCount: 4,
                   itemBuilder: (context, index) {
                     return SizedBox(
                       height: 200,
@@ -245,7 +251,7 @@ Column topdoctor(DoctorController doctorController) {
                             const SizedBox(height: 13),
                             Title(
                               color: black,
-                              child: const ShimmerEffect(width: 90, height: 40),
+                              child: const ShimmerEffect(width: 90, height: 25),
                             ),
                           ],
                         ),
@@ -263,7 +269,7 @@ Column topdoctor(DoctorController doctorController) {
 
               return ListView.builder(
                 scrollDirection: Axis.horizontal,
-                itemCount: 3,
+                itemCount: 4,
                 itemBuilder: (context, index) {
                   final doc = doctorDocs[index];
                   final doctorData = doc.data() as Map<String, dynamic>;

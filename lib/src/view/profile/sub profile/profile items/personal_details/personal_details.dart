@@ -1,28 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mabook/src/controller/user_informatin_contrller.dart';
 import 'package:mabook/src/view/const/colors.dart';
-import 'package:mabook/src/view/profile/profile%20items/profile%20edit/details_edit.dart';
+import 'package:mabook/src/view/profile/sub%20profile/profile%20items/profile%20edit/details_edit.dart';
 
 class UserDetailsScreen extends StatelessWidget {
   const UserDetailsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final FirebaseAuth auth = FirebaseAuth.instance;
-    final FirebaseFirestore firestore = FirebaseFirestore.instance;
-
-    Future<Map<String, dynamic>> fetchUserData() async {
-      final uid = auth.currentUser!.uid;
-      final DocumentSnapshot userDoc =
-          await firestore.collection('users').doc(uid).get();
-      return userDoc.data() as Map<String, dynamic>;
-    }
+    final UserDetailsController ctrl = Get.put(UserDetailsController());
 
     return FutureBuilder<Map<String, dynamic>>(
-      future: fetchUserData(),
+      future: ctrl.fetchUserData(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
