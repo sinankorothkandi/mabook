@@ -5,7 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:mabook/firebase.dart';
 import 'package:mabook/src/controller/chatController.dart';
 import 'package:mabook/src/controller/login&signin/signUn_Auth.dart';
-import 'package:mabook/src/view/chats/chatting_screen/chatting_screen.dart';
+import 'package:mabook/src/view/chat/chatting_screen/chatting_screen.dart';
 import 'package:mabook/src/view/const/colors.dart';
 
 class ChatHome extends StatelessWidget {
@@ -141,7 +141,7 @@ class ChatHome extends StatelessWidget {
                                             doctorData['id']);
                                         Get.to(
                                           () => ChattingScreen(
-                                            friendId: doc.id,
+                                            friendId: doc.id, friendToken:'',
                                           ),
                                           transition: Transition.rightToLeft,
                                         );

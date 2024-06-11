@@ -5,10 +5,10 @@ import 'package:mabook/src/view/const/colors.dart';
 AppBar appbar(List friendData) {
   return AppBar(
     shape: Border(
-      bottom: BorderSide(color: grey, width: 1),
+      bottom: BorderSide(color: AppThemeData.themeColorShade, width: 1),
     ),
-    foregroundColor: green,
-    backgroundColor:white,
+    foregroundColor: AppThemeData.themeColor,
+    backgroundColor: AppThemeData.background,
     toolbarHeight: 65,
     title: Row(
       children: [
@@ -28,6 +28,6 @@ AppBar appbar(List friendData) {
           style: GoogleFonts.poppins(fontSize: 30),
         ),
       ],
-),
-);
+    ),
+  );
 }

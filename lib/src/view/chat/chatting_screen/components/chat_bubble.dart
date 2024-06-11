@@ -14,17 +14,20 @@ import 'message_field.dart';
 
 // ignore: must_be_immutable
 class ChatBubble extends StatelessWidget {
-  ChatBubble({super.key, required this.friendID});
+  ChatBubble({super.key, required this.friendID, required this.friendToken});
   final chatCtrl = Get.put(ChatController());
   String friendID;
+  String? friendToken;
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         Container(
-          color: white,
-          margin:
-              EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.01),
+          color: AppThemeData.background,
+          margin: EdgeInsets.only(
+              top: MediaQuery.of(context).size.height * 0.01,
+              left: 5,
+              right: 5),
           height: MediaQuery.of(context).size.height * 0.81,
           child: StreamBuilder<QuerySnapshot>(
               stream: chatCtrl.getChats(friendID),
@@ -36,7 +39,7 @@ class ChatBubble extends StatelessWidget {
                     "Start a new\nconversation",
                     style: GoogleFonts.poppins(
                       fontSize: 50,
-                      color:grey,
+                      color: AppThemeData.themeColorShade1,
                     ),
                   ));
                 }
@@ -69,11 +72,11 @@ class ChatBubble extends StatelessWidget {
                               decoration: BoxDecoration(
                                   color: document['fromId'] ==
                                           auth.currentUser!.uid
-                                      ? green
-                                      : white,
+                                      ? AppThemeData.themeColor
+                                      : AppThemeData.background,
                                   borderRadius: BorderRadius.circular(20),
                                   border: Border.all(
-                                      color: green,
+                                      color: AppThemeData.themeColor,
                                       width: 0.5)),
                               child: ConstrainedBox(
                                 constraints: BoxConstraints(
@@ -88,8 +91,8 @@ class ChatBubble extends StatelessWidget {
                                             fontSize: 18,
                                             color: document['fromId'] ==
                                                     auth.currentUser!.uid
-                                                ? white
-                                                : green),
+                                                ? AppThemeData.background
+                                                : AppThemeData.themeColor),
                                       ),
                               ),
                             ),
@@ -102,7 +105,7 @@ class ChatBubble extends StatelessWidget {
                           child: Text(
                             time,
                             style: GoogleFonts.poppins(
-                                color:green,
+                                color: AppThemeData.themeColor,
                                 fontWeight: FontWeight.w400),
                           ),
                         ),
@@ -112,8 +115,8 @@ class ChatBubble extends StatelessWidget {
                 );
               }),
         ),
-        messageField(context, friendID)
-     ],
-);
-}
+        messageField(context, friendID, friendToken)
+      ],
+    );
+  }
 }

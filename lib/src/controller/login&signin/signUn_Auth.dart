@@ -234,7 +234,7 @@ class AuthController extends GetxController {
           data['name'],
           data['imageUrls'],
           data['id'],
-          // data['notificationToken']
+          data['notificationToken']
         ];
       }
     } catch (e) {

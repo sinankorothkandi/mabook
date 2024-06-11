@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mabook/src/controller/chatController.dart';
 import 'package:mabook/src/controller/login&signin/signUn_Auth.dart';
-import 'package:mabook/src/view/chats/components/message_bubble.dart';
+import 'package:mabook/src/view/chat/components/message_bubble.dart';
 import 'package:mabook/src/view/const/colors.dart';
 
 // ignore: must_be_immutable
@@ -22,9 +22,9 @@ class ChatList extends StatelessWidget {
           builder:
               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (!snapshot.hasData) {
-              return const Center(
+              return Center(
                 child: CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation(green),
+                  valueColor: AlwaysStoppedAnimation(AppThemeData.themeColor),
                 ),
               );
             } else if (snapshot.data!.docs.isEmpty) {
@@ -32,7 +32,7 @@ class ChatList extends StatelessWidget {
                 child: Text(
                   "no messages",
                   style: GoogleFonts.poppins(
-                    color: grey,
+                    color: AppThemeData.themeColorShade,
                     fontSize: 20,
                   ),
                 ),
@@ -42,9 +42,9 @@ class ChatList extends StatelessWidget {
                 future: chatCtrl.getListChatWith(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(
+                    return Center(
                         child: CircularProgressIndicator(
-                      color: green,
+                      color: AppThemeData.themeColor,
                     ));
                   }
 
@@ -62,6 +62,7 @@ class ChatList extends StatelessWidget {
                     itemCount: chatList.length,
                     itemBuilder: (ctx, index) {
                       final userDetails = chatList[index];
+
                       return messageBubble(userDetails[0], userDetails[1],
                           userDetails[2], userDetails[3]);
                     },

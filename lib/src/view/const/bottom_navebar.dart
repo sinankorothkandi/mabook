@@ -2,7 +2,7 @@ import 'package:crystal_navigation_bar/crystal_navigation_bar.dart';
 import 'package:enefty_icons/enefty_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:mabook/src/view/appointments/dislpay%20appointments/appointment.dart';
-import 'package:mabook/src/view/chats/chat_page.dart';
+import 'package:mabook/src/view/chat/chat_page.dart';
 import 'package:mabook/src/view/chatScreens/chat_home.dart';
 import 'package:mabook/src/view/search%20screen/search_screen.dart';
 import 'package:mabook/src/view/const/colors.dart';
@@ -27,7 +27,8 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
     const SearchScreen(
       autoFocus: false,
     ),
-    const ChatHome(),
+    // const ChatHome(),
+    const ChatPage(),
     // const ChatPage(),
     const Appoinments(),
     const ProfileList(),

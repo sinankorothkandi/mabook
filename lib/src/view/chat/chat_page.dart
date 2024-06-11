@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:mabook/src/view/chats/components/chat_list.dart';
+import 'package:mabook/src/view/chat/components/chat_list.dart';
 import 'package:mabook/src/view/const/colors.dart';
+
+
 import 'components/appbar.dart';
 
 class ChatPage extends StatelessWidget {
@@ -9,7 +11,7 @@ class ChatPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: green,
+      backgroundColor: AppThemeData.background,
       appBar: appbar(),
       body: ChatList(),
     );

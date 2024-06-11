@@ -3,10 +3,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mabook/src/view/authentication/login%20page/loginpage.dart';
-import 'package:mabook/src/view/chats/chat_page.dart';
+import 'package:mabook/src/view/chat/chat_page.dart';
+import 'package:mabook/src/view/chat/components/chat_list.dart';
 import 'package:mabook/src/view/const/colors.dart';
 import 'package:mabook/src/view/profile/sub%20profile/app_info.dart/appinfo.dart';
-import 'package:mabook/src/view/profile/sub%20profile/help/help.dart';
 import 'package:mabook/src/view/profile/sub%20profile/privacy%20police/privacy_policy.dart';
 import 'package:mabook/src/view/profile/sub%20profile/profile%20items/personal_details/personal_details.dart';
 import 'package:mabook/src/view/profile/sub%20profile/terms%20and%20conditions/t_and_c.dart';

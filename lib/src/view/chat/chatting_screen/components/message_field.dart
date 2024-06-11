@@ -4,24 +4,26 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:mabook/src/controller/chatController.dart';
 import 'package:mabook/src/view/const/colors.dart';
 
-
-Row messageField(BuildContext context, String friendID) {
+Row messageField(BuildContext context, String friendID, String? friendToken) {
   final chatCtrl = Get.put(ChatController());
 
   return Row(
-    crossAxisAlignment: CrossAxisAlignment.start,
+    crossAxisAlignment: CrossAxisAlignment.center,
+    mainAxisAlignment: MainAxisAlignment.center,
     children: [
       Container(
-          margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+          margin: EdgeInsets.symmetric(
+              horizontal: MediaQuery.of(context).size.width * 0.01,
+              vertical: 5),
           height: MediaQuery.of(context).size.height * 0.05,
-          width: MediaQuery.of(context).size.width * 0.85,
+          width: MediaQuery.of(context).size.width * 0.8,
           decoration: BoxDecoration(
-            color: white,
+            color: AppThemeData.background,
           ),
           child: TextField(
             controller: chatCtrl.messageController,
             style: GoogleFonts.poppins(
-                color: green, fontSize: 20),
+                color: AppThemeData.themeColor, fontSize: 20),
             decoration: InputDecoration(
               prefix: const SizedBox(width: 10),
               suffixIcon: GestureDetector(
@@ -29,9 +31,9 @@ Row messageField(BuildContext context, String friendID) {
                     await chatCtrl.pickAndUploadImage(friendID);
                   },
                   child: const Icon(Icons.attachment_outlined)),
-              suffixIconColor:green,
+              suffixIconColor: AppThemeData.themeColor,
               hintText: "Type here ...",
-              hintStyle: GoogleFonts.poppins(color: green),
+              hintStyle: GoogleFonts.poppins(color: AppThemeData.themeColor),
               border: const OutlineInputBorder(
                 borderRadius: BorderRadius.all(Radius.circular(30)),
               ),
@@ -40,24 +42,25 @@ Row messageField(BuildContext context, String friendID) {
               contentPadding: const EdgeInsets.symmetric(horizontal: 15),
             ),
           )),
+      // const Spacer(),
       CircleAvatar(
         radius: 25,
-        backgroundColor: green,
+        backgroundColor: AppThemeData.themeColor,
         child: Center(
           child: IconButton(
             onPressed: () async {
               chatCtrl.getChats(friendID);
               await chatCtrl.sentMessage(
-                  chatCtrl.messageController.text, friendID);
+                  chatCtrl.messageController.text, friendID, friendToken);
             },
             icon: Icon(
               Icons.send,
               size: 25,
-              color: white,
+              color: AppThemeData.background,
             ),
           ),
         ),
       ),
-],
-);
+    ],
+  );
 }

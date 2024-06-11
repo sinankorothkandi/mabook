@@ -2,16 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mabook/src/controller/chatController.dart';
 import 'package:mabook/src/controller/login&signin/signUn_Auth.dart';
-import 'package:mabook/src/view/chats/chatting_screen/components/appbar.dart';
-import 'package:mabook/src/view/chats/chatting_screen/components/chat_bubble.dart';
+import 'package:mabook/src/view/chat/chatting_screen/components/appbar.dart';
+import 'package:mabook/src/view/chat/chatting_screen/components/chat_bubble.dart';
 import 'package:mabook/src/view/const/colors.dart';
 
 
 // ignore: must_be_immutable
 class ChattingScreen extends StatefulWidget {
   ChattingScreen(
-      {super.key, required this.friendId});
+      {super.key, required this.friendId, this.friendToken});
   String friendId;
+  String? friendToken;
   @override
   State<ChattingScreen> createState() => _ChattingScreenState();
 }
@@ -19,7 +20,7 @@ class ChattingScreen extends StatefulWidget {
 class _ChattingScreenState extends State<ChattingScreen> {
   final chatCtrl = Get.put(ChatController());
   final authCtrl = Get.put(AuthController());
-  List data = ['User name unavailable', null, '', ''];
+  List data = ['', null, '', ''];
   @override
   void initState() {
     fetchUserData();
@@ -59,15 +60,16 @@ class _ChattingScreenState extends State<ChattingScreen> {
               () => chatCtrl.isLoading.value
                   ? Center(
                       child: CircularProgressIndicator(
-                      color: green,
+                      color: AppThemeData.themeColor,
                     ))
                   : ChatBubble(
                       friendID: widget.friendId,
+                      friendToken: widget.friendToken,
                     ),
             ),
           ),
         ),
-    ),
-);
-}
+      ),
+    );
+  }
 }
