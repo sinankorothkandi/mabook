@@ -2,8 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mabook/firebase.dart';
 import 'package:mabook/src/controller/chatController.dart';
-import 'package:mabook/src/view/chat/chatting_screen/chatting_screen.dart';
+import 'package:mabook/src/controller/login&signin/signUn_Auth.dart';
+import 'package:mabook/src/view/chats/chatting_screen/chatting_screen.dart';
 import 'package:mabook/src/view/const/colors.dart';
 
 class ChatHome extends StatelessWidget {
@@ -12,6 +14,7 @@ class ChatHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final chatCtrl = Get.put(ChatController());
+    final authCtrl = Get.put(AuthController());
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -84,57 +87,65 @@ class ChatHome extends StatelessWidget {
                                       : '';
 
                                   return ListTile(
-                                    leading: profilePath.isNotEmpty
-                                        ? FutureBuilder(
-                                            future: _loadImage(profilePath),
-                                            builder: (context, snapshot) {
-                                              if (snapshot.connectionState ==
-                                                  ConnectionState.waiting) {
-                                                return const CircleAvatar(
-                                                  radius: 25,
-                                                  backgroundColor: bodygrey,
-                                                  child:
-                                                      CircularProgressIndicator(),
-                                                );
-                                              } else if (snapshot.hasError) {
-                                                return const CircleAvatar(
-                                                  backgroundColor: bodygrey,
-                                                  radius: 25,
-                                                  child: Icon(Icons.error,
-                                                      color: Colors.red),
-                                                );
-                                              } else {
-                                                return CircleAvatar(
-                                                  radius: 25,
-                                                  backgroundColor: bodygrey,
-                                                  backgroundImage:
-                                                      NetworkImage(profilePath),
-                                                );
-                                              }
-                                            },
-                                          )
-                                        : const CircleAvatar(
-                                            backgroundColor: bodygrey,
-                                            radius: 25,
-                                            child:
-                                                Icon(Icons.person, color: grey),
+                                      leading: profilePath.isNotEmpty
+                                          ? FutureBuilder(
+                                              future: _loadImage(profilePath),
+                                              builder: (context, snapshot) {
+                                                if (snapshot.connectionState ==
+                                                    ConnectionState.waiting) {
+                                                  return const CircleAvatar(
+                                                    radius: 25,
+                                                    backgroundColor: bodygrey,
+                                                    child:
+                                                        CircularProgressIndicator(),
+                                                  );
+                                                } else if (snapshot.hasError) {
+                                                  return const CircleAvatar(
+                                                    backgroundColor: bodygrey,
+                                                    radius: 25,
+                                                    child: Icon(Icons.error,
+                                                        color: Colors.red),
+                                                  );
+                                                } else {
+                                                  return CircleAvatar(
+                                                    radius: 25,
+                                                    backgroundColor: bodygrey,
+                                                    backgroundImage:
+                                                        NetworkImage(
+                                                            profilePath),
+                                                  );
+                                                }
+                                              },
+                                            )
+                                          : const CircleAvatar(
+                                              backgroundColor: bodygrey,
+                                              radius: 25,
+                                              child: Icon(Icons.person,
+                                                  color: grey),
+                                            ),
+                                      title: Text(
+                                        doctorData['name'] ?? 'N/A',
+                                        style:
+                                            GoogleFonts.poppins(color: black),
+                                      ),
+                                      subtitle: Text(
+                                        doctorData['number']?.toString() ??
+                                            'N/A',
+                                        style: GoogleFonts.poppins(color: grey),
+                                      ),
+                                      trailing: const Icon(Icons.navigate_next),
+                                      onTap: () async {
+                                        print('===============${doc.id}');
+                                        await chatCtrl.getOrCreateChat(
+                                            auth.currentUser!.uid,
+                                            doctorData['id']);
+                                        Get.to(
+                                          () => ChattingScreen(
+                                            friendId: doc.id,
                                           ),
-                                    title: Text(
-                                      doctorData['name'] ?? 'N/A',
-                                      style: GoogleFonts.poppins(color: black),
-                                    ),
-                                    subtitle: Text(
-                                      doctorData['number']?.toString() ?? 'N/A',
-                                      style: GoogleFonts.poppins(color: grey),
-                                    ),
-                                    trailing: const Icon(Icons.navigate_next),
-                                    onTap: () async {
-                                      chatCtrl.friendId = doc.id;
-                                      chatCtrl.friendName = doctorData['name'];
-                                      await chatCtrl.getChatId();
-                                      Get.to(() => const ChattingScreen());
-                                    },
-                                  );
+                                          transition: Transition.rightToLeft,
+                                        );
+                                      });
                                 },
                               ),
                             );

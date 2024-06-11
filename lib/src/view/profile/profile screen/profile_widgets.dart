@@ -3,8 +3,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mabook/src/view/authentication/login%20page/loginpage.dart';
-import 'package:mabook/src/view/chat/chat_page.dart';
+import 'package:mabook/src/view/chats/chat_page.dart';
 import 'package:mabook/src/view/const/colors.dart';
+import 'package:mabook/src/view/profile/sub%20profile/app_info.dart/appinfo.dart';
 import 'package:mabook/src/view/profile/sub%20profile/help/help.dart';
 import 'package:mabook/src/view/profile/sub%20profile/privacy%20police/privacy_policy.dart';
 import 'package:mabook/src/view/profile/sub%20profile/profile%20items/personal_details/personal_details.dart';
@@ -51,24 +52,25 @@ Container ProfileItemList(BuildContext context, ctrl) {
             ),
             trailing: const Icon(Icons.navigate_next, color: green),
           ),
+          // ListTile(
+          //   onTap: () {
+          //     Navigator.push(context,
+          //         MaterialPageRoute(builder: (_) => const HelpScreen()));
+          //   },
+          //   leading: const Icon(Icons.help_outline_sharp, color: green),
+          //   title: const Text(
+          //     'Helps',
+          //     style: TextStyle(color: black, fontSize: 20),
+          //   ),
+          //   trailing: const Icon(Icons.navigate_next, color: green),
+          // ),
           ListTile(
             onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (_) => const HelpScreen()));
+              Get.to(() => const AppInfo());
             },
-            leading: const Icon(Icons.help_outline_sharp, color: green),
+            leading: const Icon(Icons.info_outline, color: green),
             title: const Text(
-              'Helps',
-              style: TextStyle(color: black, fontSize: 20),
-            ),
-            trailing: const Icon(Icons.navigate_next, color: green),
-          ),
-          ListTile(
-            onTap: () {},
-            leading:
-                const Icon(Icons.notifications_none_outlined, color: green),
-            title: const Text(
-              'Notification',
+              'App Info',
               style: TextStyle(color: black, fontSize: 20),
             ),
             trailing: const Icon(Icons.navigate_next, color: green),
@@ -109,6 +111,8 @@ Container ProfileItemList(BuildContext context, ctrl) {
           const SizedBox(
             height: 30,
           ),
+          const Text('Version 1.0.0',
+              style: TextStyle(color: Colors.grey, fontSize: 18))
         ],
       ),
     ),

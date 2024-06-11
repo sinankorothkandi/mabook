@@ -3,11 +3,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:mabook/src/model/user_information_model.dart';
 import 'package:mabook/src/view/const/bottom_navebar.dart';
-import 'package:mabook/src/view/home/home/home.dart';
 import 'package:mabook/src/view/authentication/personal%20details/details_adding.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -73,7 +71,7 @@ class AuthController extends GetxController {
         username.value = userName;
 
         await addUser(userModele(
-            userName: users.text, email: email.text, password: password));
+            userName: users.text, email: email.text, password: password,chatWith:[]));
         return user;
       }
     } on FirebaseAuthException catch (e) {
@@ -168,10 +166,12 @@ class AuthController extends GetxController {
     await prefs.setBool("isLoggedIn", true);
   }
 
+ //sign in with google
   signInWithGoogle() async {
     final GoogleSignIn googleSignIn = GoogleSignIn();
 
     try {
+      // Sign out from Google to force account selection
       await googleSignIn.signOut();
 
       final GoogleSignInAccount? googleSignInAccount =
@@ -186,136 +186,59 @@ class AuthController extends GetxController {
           accessToken: googleSignInAuthentication.accessToken,
         );
 
-        await auth.signInWithCredential(credential);
-        Get.to(() => const HomePage());
-      }
-    } catch (e) {
-      Get.snackbar("Error", "$e", snackPosition: SnackPosition.BOTTOM);
-    }
-  }
+        UserCredential userCredential =
+            await auth.signInWithCredential(credential);
+        User? user = userCredential.user;
 
-  sentOtp() async {
-    try {
-      QuerySnapshot snapshot = await db
-          .collection('users')
-          .where('phoneNumber', isEqualTo: '+91${phoneNumber.text}')
-          .get();
-
-      if (snapshot.docs.isNotEmpty) {
-        userWithNumExists = true;
-        DocumentSnapshot userDoc = snapshot.docs.first;
-        String userName = userDoc['name'];
-
-        Get.snackbar('Success', 'OTP sent to + 91 ${phoneNumber.text}',
-            snackPosition: SnackPosition.BOTTOM,
-            titleText: Text(
-              'Welcome back, $userName!',
-              style: GoogleFonts.poppins(),
+        if (user != null) {
+          // Check if the user exists in Firestore
+          QuerySnapshot userQuery = await db
+              .collection('users')
+              .where('id', isEqualTo: user.uid)
+              .get();
+          if (userQuery.docs.isEmpty) {
+            // If user does not exist, create a new user in Firestore
+            await addUser(userModele(
+              userName: user.displayName,
+              email: user.email,
+              // notificationToken:
+              //     notificationToken, // replace with your actual token variable
+              id: user.uid,
+              chatWith: [],
             ));
+          }
 
-        await auth.verifyPhoneNumber(
-            phoneNumber: "+91${phoneNumber.text}",
-            verificationCompleted: (PhoneAuthCredential credential) async {},
-            verificationFailed: (FirebaseAuthException e) {
-              if (e.code == 'invalid-phone-number') {
-                Get.snackbar('Error', 'The provided phone number is not valid.',
-                    snackPosition: SnackPosition.BOTTOM);
-              } else {
-                Get.snackbar('Error', 'An error occurred. ${e.toString()}',
-                    snackPosition: SnackPosition.BOTTOM);
-              }
-            },
-            codeSent: (String verificationId, [int? resendToken]) {
-              verifyId = verificationId;
-              Get.snackbar('Success', 'OTP sent to + 91 ${phoneNumber.text}',
-                  snackPosition: SnackPosition.BOTTOM);
-              // Get.to(() => OtpVerificationPage());
-            },
-            codeAutoRetrievalTimeout: (String verificationId) {});
-      } else {
-        userWithNumExists = false;
-        await auth.verifyPhoneNumber(
-            phoneNumber: "+91${phoneNumber.text}",
-            verificationCompleted: (PhoneAuthCredential credential) async {
-              User? user = auth.currentUser;
-              if (user == null) {
-                UserCredential userCredential =
-                    await auth.signInWithCredential(credential);
-                User? newUser = userCredential.user;
-                if (newUser != null) {
-                  await db.collection('users').doc(newUser.uid).set({
-                    'phoneNumber': newUser.phoneNumber,
-                    'name': users.text,
-                    'createdAt': Timestamp.now(),
-                  });
-                }
-              }
-            },
-            verificationFailed: (FirebaseAuthException e) {
-              if (e.code == 'invalid-phone-number') {
-                Get.snackbar('Error', 'The provided phone number is not valid.',
-                    snackPosition: SnackPosition.BOTTOM);
-              } else {
-                Get.snackbar('Error', 'An error occurred. ${e.toString()}',
-                    snackPosition: SnackPosition.BOTTOM);
-              }
-            },
-            codeSent: (String verificationId, [int? resendToken]) {
-              verifyId = verificationId;
-              Get.snackbar('Success', 'OTP sent to + 91 ${phoneNumber.text}',
-                  snackPosition: SnackPosition.BOTTOM);
-              // Get.to(() => OtpVerificationPage());
-            },
-            codeAutoRetrievalTimeout: (String verificationId) {});
-      }
-    } catch (e) {
-      Get.snackbar('Error', e.toString(), snackPosition: SnackPosition.BOTTOM);
-    }
-  }
-
-  verifyOtp() async {
-    final cred = PhoneAuthProvider.credential(
-        verificationId: verifyId, smsCode: otp.text);
-    try {
-      final user = await auth.signInWithCredential(cred);
-      if (user.user != null) {
-        Get.snackbar("Success", "OTP verified",
-            snackPosition: SnackPosition.BOTTOM);
-
-        if (auth.currentUser!.displayName != null) {
-          // Get.to(() => BottomNavBar());
-        } else {
-          // Get.to(() => UserNameNumSignUp());
-          saveUserNameNum();
+          // Navigate to BottomNavBar
+          Get.offAll(() => CustomBottomNavigationBar());
         }
-      } else {
-        Get.snackbar("Error", "OTP not verified",
-            snackPosition: SnackPosition.BOTTOM);
       }
-    } on FirebaseAuthException catch (e) {
-      Get.snackbar("Error", e.toString(), snackPosition: SnackPosition.BOTTOM);
     } catch (e) {
-      Get.snackbar('Error', e.toString(), snackPosition: SnackPosition.BOTTOM);
-    }
-  }
+      Get.snackbar("Error", "$e");
+}
+}
 
-  saveUserNameNum() async {
-    if (users.text.isEmpty) {
-      Get.snackbar("Error", "Please enter a username",
-          snackPosition: SnackPosition.BOTTOM);
+
+  getUserDetailsByUId(String uid) async {
+    if (uid == "") {
+      Get.snackbar("Error", "Something went wrong. Please try again");
+      Get.back();
       return;
     }
-    if (auth.currentUser!.displayName == null) {
-      print("====================================");
-      await auth.currentUser!.updateDisplayName(users.text);
-      Get.snackbar("Success", "username has been saved",
-          snackPosition: SnackPosition.BOTTOM);
-
-      print(auth.currentUser);
-      // Get.to(() => BottomNavBar());
-    }
-    //else {
-    //   Get.snackbar("Error", "-----", snackPosition: SnackPosition.BOTTOM);
-// }
-  }
+    try {
+      QuerySnapshot querySnapshot =
+          await db.collection('users').where('id', isEqualTo: uid).get();
+      if (querySnapshot.docs.isNotEmpty) {
+        DocumentSnapshot userDoc = querySnapshot.docs.first;
+        Map<String, dynamic> data = userDoc.data() as Map<String, dynamic>;
+        return [
+          data['name'],
+          data['imageUrls'],
+          data['id'],
+          // data['notificationToken']
+        ];
+      }
+    } catch (e) {
+       Get.snackbar('Error', e.toString());
+}
+}
 }

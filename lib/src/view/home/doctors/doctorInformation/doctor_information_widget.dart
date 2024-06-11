@@ -1,8 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mabook/src/view/appointments/make%20appointment/make_appointment.dart';
 import 'package:mabook/src/view/const/colors.dart';
 
 Row profileSection(profilePath, Map<String, dynamic> doctorData) {

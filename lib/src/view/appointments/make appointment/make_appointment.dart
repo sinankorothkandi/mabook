@@ -11,13 +11,14 @@ import 'package:razorpay_web/razorpay_web.dart';
 class AppointmentScreen extends StatefulWidget {
   final Map<String, dynamic> doctorData;
   final String selectedDate;
+  final String doctorid;
 
   final int selectedTokens;
   const AppointmentScreen(
       {super.key,
       required this.doctorData,
       required this.selectedDate,
-      required this.selectedTokens});
+      required this.selectedTokens, required this.doctorid});
 
   @override
   State<AppointmentScreen> createState() => _AppointmentScreenState();
@@ -27,7 +28,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
   final Razorpay _razorpay = Razorpay();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final AppoinmentController ctrl = Get.put(AppoinmentController());
-
+  
   @override
   void initState() {
     super.initState();
@@ -36,7 +37,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
     });
     _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, (response) {
       _handlePaymentSuccessResponse(response, context, widget.doctorData,
-          widget.selectedDate, widget.selectedTokens);
+          widget.selectedDate, widget.selectedTokens,widget.doctorid);
     });
     // _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, (response) {
     //   _handleExternalWalletSelected(response, _scaffoldKey.currentContext!);
@@ -176,7 +177,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
   }
 
   void _handlePaymentSuccessResponse(PaymentSuccessResponse response,
-      BuildContext context, doctorData, selectedDate, selectedTokens) async {
+      BuildContext context, doctorData, selectedDate, selectedTokens,doctorid,) async {
     final AppoinmentController ctrl = Get.put(AppoinmentController());
 
     showAlertDialog(
@@ -187,7 +188,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
       print('================wwwwwwwwwwwwwwwwwwwwwwwww:');
 
       ctrl.addappoinmentToFirebase(doctorData['name'],
-          doctorData['consultancyfees'], selectedDate, selectedTokens);
+          doctorData['consultancyfees'], selectedDate, selectedTokens,doctorid,doctorData,context);
     });
   }
 

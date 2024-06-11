@@ -1,15 +1,11 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, unused_local_variable, use_build_context_synchronously, non_constant_identifier_names
-
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mabook/src/controller/login&signin/signUn_Auth.dart';
 import 'package:mabook/src/view/authentication/login%20page/loginpage.dart';
-import 'package:mabook/src/view/authentication/signup%20page/email_verification.dart';
-import 'package:mabook/src/view/const/bottom_navebar.dart';
+
 import 'package:mabook/src/view/const/colors.dart';
-import 'package:mabook/src/view/authentication/personal%20details/details_adding.dart';
 
 class signUpPage extends StatefulWidget {
   const signUpPage({super.key});
@@ -28,7 +24,7 @@ class _LoginPageState extends State<signUpPage> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text(
+        title: const Text(
           "Sign In",
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
@@ -37,7 +33,7 @@ class _LoginPageState extends State<signUpPage> {
         child: SingleChildScrollView(
           child: Center(
             child: Padding(
-              padding: EdgeInsets.only(top: 40),
+              padding: const EdgeInsets.only(top: 40),
               child: signUpFrom(),
             ),
           ),
@@ -53,10 +49,10 @@ class _LoginPageState extends State<signUpPage> {
       child: Column(
         children: [
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 30),
+            padding: const EdgeInsets.symmetric(horizontal: 30),
             child: Row(
               children: [
-                SizedBox(
+                const SizedBox(
                   height: 48,
                   width: 47,
                   child: ClipRRect(
@@ -70,12 +66,12 @@ class _LoginPageState extends State<signUpPage> {
                     ),
                   ),
                 ),
-                SizedBox(width: 20),
+                const SizedBox(width: 20),
                 Expanded(
                   child: TextFormField(
                     controller: ctrl.users,
-                    key: ValueKey('userName'),
-                    decoration: InputDecoration(
+                    key: const ValueKey('userName'),
+                    decoration: const InputDecoration(
                       labelText: 'User Name',
                       border: InputBorder.none,
                     ),
@@ -91,10 +87,10 @@ class _LoginPageState extends State<signUpPage> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 30),
+            padding: const EdgeInsets.symmetric(horizontal: 30),
             child: Row(
               children: [
-                SizedBox(
+                const SizedBox(
                   height: 48,
                   width: 47,
                   child: ClipRRect(
@@ -108,12 +104,12 @@ class _LoginPageState extends State<signUpPage> {
                     ),
                   ),
                 ),
-                SizedBox(width: 20),
+                const SizedBox(width: 20),
                 Expanded(
                   child: TextFormField(
                     controller: ctrl.email,
-                    key: ValueKey('email'),
-                    decoration: InputDecoration(
+                    key: const ValueKey('email'),
+                    decoration: const InputDecoration(
                       labelText: 'Email',
                       border: InputBorder.none,
                     ),
@@ -134,10 +130,10 @@ class _LoginPageState extends State<signUpPage> {
           ),
 
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 30),
+            padding: const EdgeInsets.symmetric(horizontal: 30),
             child: Row(
               children: [
-                SizedBox(
+                const SizedBox(
                   height: 48,
                   width: 47,
                   child: ClipRRect(
@@ -151,12 +147,12 @@ class _LoginPageState extends State<signUpPage> {
                     ),
                   ),
                 ),
-                SizedBox(width: 20),
+                const SizedBox(width: 20),
                 Expanded(
                   child: TextFormField(
                     obscureText: true,
-                    key: ValueKey('password'),
-                    decoration: InputDecoration(
+                    key: const ValueKey('password'),
+                    decoration: const InputDecoration(
                       labelText: 'Password',
                       border: InputBorder.none,
                     ),
@@ -174,7 +170,7 @@ class _LoginPageState extends State<signUpPage> {
           ),
 
           //||===============this is check box of the privacy policy ============================||
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           Padding(
@@ -192,14 +188,14 @@ class _LoginPageState extends State<signUpPage> {
                   },
                 ),
                 Text(
-                  "I agree with Terms of Conditions and\nPrivacy Policy",
+                  "I agree with Terms of Conditions\nand Privacy Policy",
                   style: GoogleFonts.poppins(fontSize: 16),
                 )
               ],
             ),
           ),
           //||====================================================================================||
-          SizedBox(
+          const SizedBox(
             height: 40,
           ),
           SizedBox(
@@ -235,19 +231,19 @@ class _LoginPageState extends State<signUpPage> {
                   borderRadius: BorderRadius.circular(10.0),
                 ),
               ),
-              child: Text('register'),
+              child: const Text('register'),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 15,
           ),
           Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            Text("Aldready have an account?"),
+            const Text("Aldready have an account?"),
             TextButton(
                 onPressed: () {
-                  Get.to(() => LoginPage());
+                  Get.to(() => const LoginPage());
                 },
-                child: Text('Login'))
+                child: const Text('Login'))
           ]),
         ],
       ),

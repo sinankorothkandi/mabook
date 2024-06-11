@@ -4,53 +4,60 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import 'package:intl/intl.dart' as intl;
 import 'package:mabook/firebase.dart';
 import 'package:mabook/src/controller/chatController.dart';
 import 'package:mabook/src/view/const/colors.dart';
-import 'package:intl/intl.dart' as intl;
 
 import 'message_field.dart';
 
+// ignore: must_be_immutable
 class ChatBubble extends StatelessWidget {
-  ChatBubble({super.key});
+  ChatBubble({super.key, required this.friendID});
   final chatCtrl = Get.put(ChatController());
-
+  String friendID;
   @override
   Widget build(BuildContext context) {
-    // chatCtrl.getChatId();
     return Column(
-      // mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Container(
           color: white,
           margin:
               EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.01),
           height: MediaQuery.of(context).size.height * 0.81,
-          child: StreamBuilder(
-              stream: chatCtrl.getChats(),
+          child: StreamBuilder<QuerySnapshot>(
+              stream: chatCtrl.getChats(friendID),
               builder: (BuildContext context,
                   AsyncSnapshot<QuerySnapshot> snapshot) {
-                if (!snapshot.hasData) {
-                  return Container();
+                if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                  return Center(
+                      child: Text(
+                    "Start a new\nconversation",
+                    style: GoogleFonts.poppins(
+                      fontSize: 50,
+                      color:grey,
+                    ),
+                  ));
                 }
                 return ListView(
                   reverse: true,
                   physics: const BouncingScrollPhysics(),
-                  children: snapshot.data!.docs.asMap().entries.map((entry) {
-                    var document = entry.value;
-                    var t = document['created_on'] == null
+                  children: snapshot.data!.docs.map((document) {
+                    var data = document.data() as Map<String, dynamic>;
+                    var t = data['created_on'] == null
                         ? DateTime.now()
-                        : document['created_on'].toDate();
+                        : data['created_on'].toDate();
                     var time = intl.DateFormat("h:mma").format(t);
                     return Column(
                       crossAxisAlignment:
-                          document['uid'] == auth.currentUser!.uid
+                          data['fromId'] == auth.currentUser!.uid
                               ? CrossAxisAlignment.end
                               : CrossAxisAlignment.start,
                       children: [
                         Row(
                           mainAxisAlignment:
-                              document['uid'] == auth.currentUser!.uid
+                              data['fromId'] == auth.currentUser!.uid
                                   ? MainAxisAlignment.end
                                   : MainAxisAlignment.start,
                           children: [
@@ -60,10 +67,10 @@ class ChatBubble extends StatelessWidget {
                               margin: const EdgeInsets.symmetric(
                                   vertical: 3, horizontal: 10),
                               decoration: BoxDecoration(
-                                  color:
-                                      document['uid'] == auth.currentUser!.uid
-                                          ? green
-                                          : white,
+                                  color: document['fromId'] ==
+                                          auth.currentUser!.uid
+                                      ? green
+                                      : white,
                                   borderRadius: BorderRadius.circular(20),
                                   border: Border.all(
                                       color: green,
@@ -79,7 +86,7 @@ class ChatBubble extends StatelessWidget {
                                         document['msg'],
                                         style: GoogleFonts.poppins(
                                             fontSize: 18,
-                                            color: document['uid'] ==
+                                            color: document['fromId'] ==
                                                     auth.currentUser!.uid
                                                 ? white
                                                 : green),
@@ -91,7 +98,7 @@ class ChatBubble extends StatelessWidget {
                         Padding(
                           padding: EdgeInsets.symmetric(
                               horizontal:
-                                  MediaQuery.of(context).size.width * 0.07),
+                                  MediaQuery.of(context).size.width * 0.05),
                           child: Text(
                             time,
                             style: GoogleFonts.poppins(
@@ -105,8 +112,8 @@ class ChatBubble extends StatelessWidget {
                 );
               }),
         ),
-        messageField(context)
-      ],
-    );
-  }
+        messageField(context, friendID)
+     ],
+);
+}
 }

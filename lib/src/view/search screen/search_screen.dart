@@ -1,14 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
+import 'package:mabook/firebase.dart';
 import 'package:mabook/src/controller/doctor_controller.dart';
 import 'package:mabook/src/view/const/colors.dart';
+import 'package:mabook/src/view/const/shimmer_effect.dart';
 import 'package:mabook/src/view/home/doctors/doctorInformation/doctor_information.dart';
-import 'package:mabook/src/view/profile/sub%20profile/help/help.dart';
-import 'package:mabook/src/view/profile/sub%20profile/profile%20items/personal_details/personal_details.dart';
 import 'package:mabook/src/view/search%20screen/filterd_doctor.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -45,7 +44,7 @@ class _SearchScreenState extends State<SearchScreen> {
               const SizedBox(height: 5),
               searchfield(),
               const SizedBox(
-                height: 20,
+                height: 10,
               ),
               isSerch ? isSearch() : isNotSearch()
             ],
@@ -110,7 +109,7 @@ class _SearchScreenState extends State<SearchScreen> {
           'Your Recent Doctors',
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
-        // Recentdoctor()
+        SizedBox(height: 190, width: 400, child: recentdoctor())
       ],
     );
   }
@@ -155,6 +154,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 Get.to(
                     () => DoctorInformation(
                           doctorData: doctorData,
+                          doctorid: doc.id,
                         ),
                     transition: Transition.rightToLeftWithFade);
               },
@@ -205,6 +205,130 @@ class _SearchScreenState extends State<SearchScreen> {
               ),
             ),
           ),
+        );
+      },
+    );
+  }
+
+  StreamBuilder<QuerySnapshot<Object?>> recentdoctor() {
+    String userId = auth.currentUser!.uid;
+    print('=======================$userId');
+    return StreamBuilder<QuerySnapshot>(
+      stream: FirebaseFirestore.instance
+          .collection("appoinmentsCollection")
+          .where('userid', isEqualTo: userId)
+          .snapshots(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: 4,
+            itemBuilder: (context, index) {
+              return SizedBox(
+                height: 100,
+                width: 150,
+                child: Card(
+                  elevation: 5,
+                  child: Column(
+                    children: [
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      const CircleAvatar(
+                        radius: 45,
+                        backgroundColor: Colors.black,
+                        child: ShimmerEffect(
+                          radius: 45,
+                        ),
+                      ),
+                      const SizedBox(height: 13),
+                      Title(
+                        color: black,
+                        child: const ShimmerEffect(width: 90, height: 25),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+          );
+        }
+        final appoinmentDocs = snapshot.data?.docs ?? [];
+
+        if (appoinmentDocs.isEmpty) {
+          return Center(
+            child: Text(
+              'There is no Appoinment by you',
+              style: GoogleFonts.poppins(fontSize: 23, color: black),
+            ),
+          );
+        }
+        if (snapshot.hasError) {
+          return Center(child: Text('Error: ${snapshot.error}'));
+        }
+
+        return ListView.builder(
+          scrollDirection: Axis.horizontal,
+          itemCount: appoinmentDocs.length,
+          itemBuilder: (context, index) {
+            final doc = appoinmentDocs[index];
+            final appoinmentData = doc.data() as Map<String, dynamic>;
+            // final userData =
+            //     appoinmentData['userData'] as Map<String, dynamic>?;
+            final doctorData =
+                appoinmentData['doctorData'] as Map<String, dynamic>?;
+
+            final doctorName = doctorData?['name'] ?? 'N/A';
+            final doctorProfile = doctorData?['profile'] ?? 'N/A';
+            final department = doctorData?['department'] ?? 'N/A';
+
+            return GestureDetector(
+              onTap: () => Get.to(() => DoctorInformation(
+                    doctorData: doctorData!,
+                    doctorid: doc.id,
+                  )),
+              child: SizedBox(
+                height: 150,
+                width: 150,
+                child: Card(
+                  elevation: 5,
+                  child: Column(
+                    children: [
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      doctorProfile.isNotEmpty
+                          ? CircleAvatar(
+                              radius: 45,
+                              backgroundColor: Colors.black,
+                              backgroundImage: NetworkImage(doctorProfile),
+                            )
+                          : const CircleAvatar(
+                              backgroundColor: Colors.grey,
+                              radius: 25,
+                              child: Icon(
+                                Icons.person,
+                                color: Colors.grey,
+                              ),
+                            ),
+                      const SizedBox(height: 13),
+                      Title(
+                          color: black,
+                          child: Text(
+                            "Dr.$doctorName",
+                            style:
+                                GoogleFonts.poppins(fontSize: 18, color: black),
+                          )),
+                      Text(
+                        ' $department',
+                        style: const TextStyle(color: Colors.grey),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          },
         );
       },
     );
@@ -263,6 +387,7 @@ class _SearchScreenState extends State<SearchScreen> {
                             Get.to(
                                 () => DoctorInformation(
                                       doctorData: doctorDoc,
+                                      doctorid: doc.id,
                                     ),
                                 transition: Transition.rightToLeftWithFade);
                           },

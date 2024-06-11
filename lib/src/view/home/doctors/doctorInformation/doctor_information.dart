@@ -1,16 +1,20 @@
+
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:get/get.dart';
+import 'package:mabook/src/controller/appointmentcon.dart';
 import 'package:mabook/src/view/appointments/make%20appointment/make_appointment.dart';
 import 'package:mabook/src/view/const/colors.dart';
 import 'package:mabook/src/view/home/doctors/doctorInformation/doctor_information_widget.dart';
 
 class DoctorInformation extends StatefulWidget {
   final Map<String, dynamic> doctorData;
-  
+  final String doctorid;
 
-  const DoctorInformation({super.key, required this.doctorData});
+  const DoctorInformation(
+      {super.key, required this.doctorData, required this.doctorid});
 
   @override
   _DoctorInformationState createState() => _DoctorInformationState();
@@ -20,7 +24,8 @@ class _DoctorInformationState extends State<DoctorInformation> {
   DateTime? selectedDate;
   String? selectedDay;
   String? selectedtoken;
-  Map<String, int> selectedTokenMap =   {}; 
+  Map<String, int> selectedTokenMap = {};
+  final AppoinmentController ctrl = Get.put(AppoinmentController());
 
   @override
   void initState() {
@@ -83,7 +88,7 @@ class _DoctorInformationState extends State<DoctorInformation> {
                   selectedDate == null
                       ? 'Select a Date'
                       : 'Selected Date: ${DateFormat('yyyy-MM-dd').format(selectedDate!)}',
-                  style: GoogleFonts.poppins(color: white),
+                  style: GoogleFonts.poppins(color: black),
                 ),
               ),
               if (selectedDate != null && selectedDay != null) ...[
@@ -117,7 +122,7 @@ class _DoctorInformationState extends State<DoctorInformation> {
                   ),
                   const SizedBox(height: 10),
                   Wrap(
-                    spacing: 10,
+                    spacing: 5,
                     children: getAvailableTokens(
                             consultingTimes[selectedDay]['patient_count'])
                         .map((token) {
@@ -161,18 +166,25 @@ class _DoctorInformationState extends State<DoctorInformation> {
                     onPressed: selectedDate != null &&
                             selectedDay != null &&
                             selectedTokenMap[selectedtoken.toString()] != null
-                        ? () {
-                            String date =
-                                DateFormat('dd-MMM-yyyy').format(selectedDate!);
+                        ? () async {
+                            int selectedToken =
+                                selectedTokenMap[selectedtoken.toString()]!;
+                            await ctrl.fetchAppointmentDetails(
+                                selectedDate, widget.doctorid);
 
-                            Get.to(
-                              () => AppointmentScreen(
-                                doctorData: widget.doctorData,
-                                selectedDate: date,
-                                selectedTokens:
-                                    selectedTokenMap[selectedtoken.toString()]!,
-                              ),
-                            );
+                            if (selectedToken == ctrl.bookedTokenNumbers) {
+                              Get.snackbar(
+                                  'Error', 'This token is already booked.');
+                            } else {
+                              String date = DateFormat('dd-MMM-yyyy')
+                                  .format(selectedDate!);
+                              Get.to(() => AppointmentScreen(
+                                    doctorid: widget.doctorid.toString(),
+                                    doctorData: widget.doctorData,
+                                    selectedDate: date,
+                                    selectedTokens: selectedToken,
+                                  ));
+                            }
                           }
                         : null,
                     style: ElevatedButton.styleFrom(

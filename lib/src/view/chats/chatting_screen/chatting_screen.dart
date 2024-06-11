@@ -1,25 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mabook/src/controller/chatController.dart';
-import 'package:mabook/src/view/chat/chatting_screen/components/appbar.dart';
-import 'package:mabook/src/view/chat/chatting_screen/components/chat_bubble.dart';
+import 'package:mabook/src/controller/login&signin/signUn_Auth.dart';
+import 'package:mabook/src/view/chats/chatting_screen/components/appbar.dart';
+import 'package:mabook/src/view/chats/chatting_screen/components/chat_bubble.dart';
 import 'package:mabook/src/view/const/colors.dart';
 
-class ChattingScreen extends StatefulWidget {
-  const ChattingScreen({super.key});
 
+// ignore: must_be_immutable
+class ChattingScreen extends StatefulWidget {
+  ChattingScreen(
+      {super.key, required this.friendId});
+  String friendId;
   @override
   State<ChattingScreen> createState() => _ChattingScreenState();
 }
 
 class _ChattingScreenState extends State<ChattingScreen> {
   final chatCtrl = Get.put(ChatController());
-
+  final authCtrl = Get.put(AuthController());
+  List data = ['User name unavailable', null, '', ''];
   @override
-  dispose() {
-    super.dispose();
-    chatCtrl.friendId = '';
-    chatCtrl.friendName = '';
+  void initState() {
+    fetchUserData();
+    super.initState();
+  }
+
+  fetchUserData() async {
+    data = await authCtrl.getUserDetailsByUId(widget.friendId);
+    appbar(data);
+    setState(() {});
   }
 
   @override
@@ -43,19 +53,21 @@ class _ChattingScreenState extends State<ChattingScreen> {
           }
         },
         child: Scaffold(
-          appBar: appbar(chatCtrl.friendName ?? ''),
+          appBar: appbar(data),
           body: SingleChildScrollView(
             child: Obx(
               () => chatCtrl.isLoading.value
                   ? Center(
                       child: CircularProgressIndicator(
-                      color:green,
+                      color: green,
                     ))
-                  : ChatBubble(),
+                  : ChatBubble(
+                      friendID: widget.friendId,
+                    ),
             ),
           ),
         ),
-      ),
-    );
-  }
+    ),
+);
+}
 }

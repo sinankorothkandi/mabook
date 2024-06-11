@@ -69,7 +69,7 @@ class DoctorList extends StatelessWidget {
                     ),
                     trailing: const Icon(Icons.navigate_next),
                     onTap: () {
-                      Get.to(() => DoctorInformation(doctorData: doctorData));
+                      Get.to(() => DoctorInformation(doctorData: doctorData, doctorid: doc.id,));
                     },
                   );
                 },

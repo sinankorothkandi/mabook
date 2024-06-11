@@ -51,7 +51,7 @@ class FilterdDoctor extends StatelessWidget {
                   onTap: () {
                     Get.to(
                         () => DoctorInformation(
-                              doctorData: doctorData,
+                              doctorData: doctorData, doctorid: doc.id,
                             ),
                         transition: Transition.rightToLeftWithFade);
                   },

@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:mabook/src/model/user_information_model.dart';
+import 'package:mabook/src/user_data.dart';
 import 'package:mabook/src/view/const/bottom_navebar.dart';
 
 class UserDetailsController extends GetxController {
@@ -106,6 +107,8 @@ class UserDetailsController extends GetxController {
       final uid = auth.currentUser!.uid;
       final DocumentSnapshot userDoc =
           await _firestore.collection('users').doc(uid).get();
+          userdatas = userDoc.data()as Map<String, dynamic>;
+
       return userDoc.data() as Map<String, dynamic>;
     }
  Future<void> addUserDetails() async {
@@ -143,6 +146,8 @@ class UserDetailsController extends GetxController {
         email: email,      
         password: password, 
         userName: userName, 
+        chatWith: [], 
+
       );
 
       print("Attempting to save user details to Firestore.");

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mabook/src/controller/user_informatin_contrller.dart';
+import 'package:mabook/src/user_data.dart';
 import 'package:mabook/src/view/const/colors.dart';
 import 'package:mabook/src/view/const/shimmer_effect.dart';
 import 'package:mabook/src/view/profile/profile%20screen/profile_widgets.dart';

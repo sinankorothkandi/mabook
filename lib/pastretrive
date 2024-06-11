@@ -1,0 +1,123 @@
+ StreamBuilder<QuerySnapshot<Object?>> recentdoctor() {
+    String userId = auth.currentUser!.uid;
+    print('=======================$userId');
+    return StreamBuilder<QuerySnapshot>(
+      stream: FirebaseFirestore.instance
+          .collection("appoinmentsCollection")
+          .where('userid', isEqualTo: userId)
+          .snapshots(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: 4,
+            itemBuilder: (context, index) {
+              return SizedBox(
+                height: 100,
+                width: 150,
+                child: Card(
+                  elevation: 5,
+                  child: Column(
+                    children: [
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      const CircleAvatar(
+                        radius: 45,
+                        backgroundColor: Colors.black,
+                        child: ShimmerEffect(
+                          radius: 45,
+                        ),
+                      ),
+                      const SizedBox(height: 13),
+                      Title(
+                        color: black,
+                        child: const ShimmerEffect(width: 90, height: 25),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+          );
+        }
+        final appoinmentDocs = snapshot.data?.docs ?? [];
+
+        if (appoinmentDocs.isEmpty) {
+          return Center(
+            child: Text(
+              'There is no Appoinment by you',
+              style: GoogleFonts.poppins(fontSize: 23, color: black),
+            ),
+          );
+        }
+        if (snapshot.hasError) {
+          return Center(child: Text('Error: ${snapshot.error}'));
+        }
+
+        return ListView.builder(
+          scrollDirection: Axis.horizontal,
+          itemCount: appoinmentDocs.length,
+          itemBuilder: (context, index) {
+            final doc = appoinmentDocs[index];
+            final appoinmentData = doc.data() as Map<String, dynamic>;
+            // final userData =
+            //     appoinmentData['userData'] as Map<String, dynamic>?;
+            final doctorData =
+                appoinmentData['doctorData'] as Map<String, dynamic>?;
+
+            final doctorName = doctorData?['name'] ?? 'N/A';
+            final doctorProfile = doctorData?['profile'] ?? 'N/A';
+            final disease = appoinmentData['disease'] ?? 'N/A';
+
+            return GestureDetector(
+              onTap: () => Get.to(() => DoctorInformation(
+                    doctorData: appoinmentData,
+                    doctorid: doc.id,
+                  )),
+              child: SizedBox(
+                height: 150,
+                width: 150,
+                child: Card(
+                  elevation: 5,
+                  child: Column(
+                    children: [
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      doctorProfile.isNotEmpty
+                          ? CircleAvatar(
+                              radius: 45,
+                              backgroundColor: Colors.black,
+                              backgroundImage: NetworkImage(doctorProfile),
+                            )
+                          : const CircleAvatar(
+                              backgroundColor: Colors.grey,
+                              radius: 25,
+                              child: Icon(
+                                Icons.person,
+                                color: Colors.grey,
+                              ),
+                            ),
+                      const SizedBox(height: 13),
+                      Title(
+                          color: black,
+                          child: Text(
+                            "Dr.$doctorName",
+                            style:
+                                GoogleFonts.poppins(fontSize: 18, color: black),
+                          )),
+                      Text(
+                        ' $disease',
+                        style: const TextStyle(color: Colors.grey),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          },
+        );
+      },
+    );
+  }

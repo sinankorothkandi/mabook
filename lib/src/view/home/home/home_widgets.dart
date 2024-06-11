@@ -281,7 +281,7 @@ Column topdoctor(DoctorController doctorController) {
 
                   return GestureDetector(
                     onTap: () =>
-                        Get.to(() => DoctorInformation(doctorData: doctorData)),
+                        Get.to(() => DoctorInformation(doctorData: doctorData, doctorid: doc.id,)),
                     child: SizedBox(
                       height: 200,
                       width: 150,

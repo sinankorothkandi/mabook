@@ -16,7 +16,7 @@ class HealthArticlePage extends StatelessWidget {
           Get.put(HealthArticleController());
 
       return SizedBox(
-        height: 200,
+        height: MediaQuery.of(context).size.height * 0.35,
         width: double.infinity,
         child: Column(
           children: [
@@ -48,6 +48,7 @@ class HealthArticlePage extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 10),
                       child: ListView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
                         itemCount: articleCount,
                         itemBuilder: (context, index) {
                           final article = controller.healthArticles[index];

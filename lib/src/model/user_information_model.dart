@@ -12,8 +12,10 @@ class userModele {
   final String? bloodGroup;
   final String? gender;
   final String? dob;
+   List<String>? chatWith;
 
-  userModele({
+
+  userModele( {
      this.id,
     this.email,
     this.userName,
@@ -25,6 +27,7 @@ class userModele {
      this.gender,
      this.dob,
      this.imageUrls,
+      this.chatWith,
   });
 
   factory userModele.fromMap(DocumentSnapshot map) {
@@ -40,6 +43,8 @@ class userModele {
       userName: map["userName"]??'',
       password: map["password"]??'',
       imageUrls:map['imageUrls'] ?? '',
+      chatWith:map['chatWith'] ?? '',
+
     );
   }
 
@@ -56,6 +61,8 @@ class userModele {
       "email": email,
       "userName": userName,
       "password": password,
+      "chatWith":chatWith,
+
     };
   }
 }
