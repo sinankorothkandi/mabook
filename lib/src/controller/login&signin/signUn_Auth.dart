@@ -70,8 +70,11 @@ class AuthController extends GetxController {
         await user.reload();
         username.value = userName;
 
-        await addUser(userModele(
-            userName: users.text, email: email.text, password: password,chatWith:[]));
+        await addUser(UserModele(
+            userName: users.text,
+            email: email.text,
+            password: password,
+            chatWith: []));
         return user;
       }
     } on FirebaseAuthException catch (e) {
@@ -119,7 +122,7 @@ class AuthController extends GetxController {
     }
   }
 
-  addUser(userModele user) async {
+  addUser(UserModele user) async {
     await db.collection("users").doc(auth.currentUser!.uid).set(user.toMap());
   }
 
@@ -166,7 +169,7 @@ class AuthController extends GetxController {
     await prefs.setBool("isLoggedIn", true);
   }
 
- //sign in with google
+  //sign in with google
   signInWithGoogle() async {
     final GoogleSignIn googleSignIn = GoogleSignIn();
 
@@ -198,7 +201,7 @@ class AuthController extends GetxController {
               .get();
           if (userQuery.docs.isEmpty) {
             // If user does not exist, create a new user in Firestore
-            await addUser(userModele(
+            await addUser(UserModele(
               userName: user.displayName,
               email: user.email,
               // notificationToken:
@@ -209,36 +212,66 @@ class AuthController extends GetxController {
           }
 
           // Navigate to BottomNavBar
-          Get.offAll(() => CustomBottomNavigationBar());
+          Get.offAll(() => const CustomBottomNavigationBar());
         }
       }
     } catch (e) {
       Get.snackbar("Error", "$e");
-}
-}
+    }
+  }
 
-
-  getUserDetailsByUId(String uid) async {
+  getUserDetaiflsByUId(String uid) async {
     if (uid == "") {
       Get.snackbar("Error", "Something went wrong. Please try again");
       Get.back();
       return;
     }
     try {
-      QuerySnapshot querySnapshot =
-          await db.collection('users').where('id', isEqualTo: uid).get();
+
+      QuerySnapshot querySnapshot = await db
+          .collection('doctoreCollection')
+          .where('id', isEqualTo: uid)
+          .get();
       if (querySnapshot.docs.isNotEmpty) {
         DocumentSnapshot userDoc = querySnapshot.docs.first;
         Map<String, dynamic> data = userDoc.data() as Map<String, dynamic>;
+
         return [
           data['name'],
-          data['imageUrls'],
+          data['profile'],
           data['id'],
           data['notificationToken']
         ];
       }
     } catch (e) {
-       Get.snackbar('Error', e.toString());
-}
-}
+      Get.snackbar('Error', e.toString());
+    }
+  }
+
+  Future<List<dynamic>?> getUserDetailsByUId(String uid) async {
+    if (uid.isEmpty) {
+      Get.back();
+      return null;
+    }
+    try {
+      DocumentSnapshot userDoc =
+          await db.collection('doctoreCollection').doc(uid).get();
+
+      if (userDoc.exists) {
+        Map<String, dynamic>? data = userDoc.data() as Map<String, dynamic>?;
+
+        if (data != null) {
+          return [
+            data['name'],
+            data['profile'],
+            data['id'],
+            data['notificationToken']
+          ];
+        }
+      }
+    // ignore: empty_catches
+    } catch (e) {
+    }
+    return null;
+  }
 }

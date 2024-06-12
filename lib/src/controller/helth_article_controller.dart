@@ -26,10 +26,10 @@ class HealthArticleController extends GetxController {
 
         healthArticles.assignAll(articles);
       } else {
-        print('Health articles data not fetched');
+         Get.snackbar('Error','Health articles data not fetched');
       }
     } catch (e) {
-      print('Error fetching data: $e');
+       Get.snackbar('Error ','fetching data: $e');
     }
   }
 }

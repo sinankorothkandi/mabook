@@ -1,4 +1,3 @@
-import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -31,7 +30,6 @@ class UserDetailsEdit extends StatelessWidget {
           ? DateFormat('dd-MMM-yyyy').parse(userData['dob'])
           : null;
     } catch (e) {
-      print('Error parsing DOB: $e');
       ctrl.dob.value = null;
     }
     return Scaffold(

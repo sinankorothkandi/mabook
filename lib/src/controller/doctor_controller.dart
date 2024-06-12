@@ -25,16 +25,16 @@ class DoctorController extends GetxController {
 
       searchResults.assignAll(result.docs);
     } catch (e) {
-      print("Error searching doctors: $e");
+      Get.snackbar("Error"," searching doctors: $e");
     }
   }
 
   Future<void> deleteDoctor(String docId) async {
     try {
       await _firestore.collection('doctoreCollection').doc(docId).delete();
-      print("Doctor deleted successfully.");
+       Get.snackbar('successfully',"Doctor deleted successfully.");
     } catch (e) {
-      print("Error deleting doctor: $e");
+       Get.snackbar("Error"," deleting doctor: $e");
     }
   }
 }

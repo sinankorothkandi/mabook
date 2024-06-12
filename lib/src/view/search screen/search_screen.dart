@@ -212,7 +212,6 @@ class _SearchScreenState extends State<SearchScreen> {
 
   StreamBuilder<QuerySnapshot<Object?>> recentdoctor() {
     String userId = auth.currentUser!.uid;
-    print('=======================$userId');
     return StreamBuilder<QuerySnapshot>(
       stream: FirebaseFirestore.instance
           .collection("appoinmentsCollection")

@@ -2,8 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mabook/src/controller/chatController.dart';
-import 'package:mabook/src/controller/login&signin/signUn_Auth.dart';
+import 'package:mabook/src/controller/chat_controller.dart';
+import 'package:mabook/src/controller/login&signin/signUn_auth.dart';
 import 'package:mabook/src/view/chat/components/message_bubble.dart';
 import 'package:mabook/src/view/const/colors.dart';
 
@@ -39,36 +39,45 @@ class ChatList extends StatelessWidget {
               );
             } else {
               return FutureBuilder<List<List<dynamic>>>(
-                future: chatCtrl.getListChatWith(),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(
-                        child: CircularProgressIndicator(
-                      color: AppThemeData.themeColor,
-                    ));
-                  }
+  future: chatCtrl.getListChatWith(),
+  builder: (BuildContext context, AsyncSnapshot<List<List<dynamic>>> snapshot) {
+    if (snapshot.connectionState == ConnectionState.waiting) {
+      return Center(
+          child: CircularProgressIndicator(
+        color: AppThemeData.themeColor,
+      ));
+    }
 
-                  if (snapshot.hasError) {
-                    return const Center(child: Text('Something went wrong'));
-                  }
+    if (snapshot.hasError) {
+      print('Error: ${snapshot.error}');
+      return const Center(child: Text('Something went wrong'));
+    }
 
-                  if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                    return const Center(child: Text('No chats available'));
-                  }
+    if (!snapshot.hasData || snapshot.data!.isEmpty) {
+      return const Center(child: Text('No chats available'));
+    }
 
-                  final chatList = snapshot.data!;
+    final chatList = snapshot.data!;
 
-                  return ListView.builder(
-                    itemCount: chatList.length,
-                    itemBuilder: (ctx, index) {
-                      final userDetails = chatList[index];
+    return ListView.builder(
+      itemCount: chatList.length,
+      itemBuilder: (ctx, index) {
+        final userDetails = chatList[index];
 
-                      return messageBubble(userDetails[0], userDetails[1],
-                          userDetails[2], userDetails[3]);
-                    },
-                  );
-                },
-              );
+        // Check the userDetails content
+        print('User Details: $userDetails');
+
+        return messageBubble(
+          userDetails[0], 
+          userDetails[1], 
+          userDetails[2], 
+          
+        );
+      },
+    );
+  },
+);
+
             }
           }),
     );

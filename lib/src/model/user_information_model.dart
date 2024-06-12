@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class userModele {
+class UserModele {
   final String? id;
   final String? name;
   final String? email;
@@ -15,7 +15,7 @@ class userModele {
    List<String>? chatWith;
 
 
-  userModele( {
+  UserModele( {
      this.id,
     this.email,
     this.userName,
@@ -30,8 +30,8 @@ class userModele {
       this.chatWith,
   });
 
-  factory userModele.fromMap(DocumentSnapshot map) {
-    return userModele(
+  factory UserModele.fromMap(DocumentSnapshot map) {
+    return UserModele(
       id: map.id,
       name: map['name'] ?? '',
       number: map['number'] ?? '',

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:mabook/src/view/const/colors.dart';
 
 class HelpScreen extends StatelessWidget {

@@ -12,7 +12,7 @@ class page_1 extends StatelessWidget {
         actions: [
           TextButton(
               onPressed: () {
-                Get.to(() => intro());
+                Get.to(() => const intro());
               },
               child: const Text('Skip'))
         ],

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mabook/src/controller/chatController.dart';
-import 'package:mabook/src/controller/login&signin/signUn_Auth.dart';
+import 'package:mabook/src/controller/chat_controller.dart';
+import 'package:mabook/src/controller/login&signin/signUn_auth.dart';
 import 'package:mabook/src/view/chat/chatting_screen/components/appbar.dart';
 import 'package:mabook/src/view/chat/chatting_screen/components/chat_bubble.dart';
 import 'package:mabook/src/view/const/colors.dart';
@@ -28,7 +28,7 @@ class _ChattingScreenState extends State<ChattingScreen> {
   }
 
   fetchUserData() async {
-    data = await authCtrl.getUserDetailsByUId(widget.friendId);
+    data = (await authCtrl.getUserDetailsByUId(widget.friendId))!;
     appbar(data);
     setState(() {});
   }
@@ -64,7 +64,6 @@ class _ChattingScreenState extends State<ChattingScreen> {
                     ))
                   : ChatBubble(
                       friendID: widget.friendId,
-                      friendToken: widget.friendToken,
                     ),
             ),
           ),

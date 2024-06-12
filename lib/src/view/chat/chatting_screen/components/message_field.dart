@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mabook/src/controller/chatController.dart';
+import 'package:mabook/src/controller/chat_controller.dart';
 import 'package:mabook/src/view/const/colors.dart';
 
-Row messageField(BuildContext context, String friendID, String? friendToken) {
+Row messageField(BuildContext context, String friendID,) {
   final chatCtrl = Get.put(ChatController());
 
   return Row(
@@ -51,7 +51,7 @@ Row messageField(BuildContext context, String friendID, String? friendToken) {
             onPressed: () async {
               chatCtrl.getChats(friendID);
               await chatCtrl.sentMessage(
-                  chatCtrl.messageController.text, friendID, friendToken);
+                  chatCtrl.messageController.text, friendID,);
             },
             icon: Icon(
               Icons.send,

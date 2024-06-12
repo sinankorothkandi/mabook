@@ -20,7 +20,6 @@ class AppoinmentController extends GetxController {
 
     if (appointmentFormKey.currentState!.validate()) {
       try {
-        print('================Eeeeeee:');
 
         DocumentReference newDocRef =
             await _firestore.collection('appoinmentsCollection').add({
@@ -49,14 +48,13 @@ class AppoinmentController extends GetxController {
         Navigator.pop(context);
         Navigator.pop(context);
       } catch (e) {
-        print('================Error booking appoinmet : $e');
+        Get.snackbar('error',' booking appoinmet : $e');
       }
     }
   }
 
   String bookedTokenNumbers = '';
   fetchAppointmentDetails(selectedDate, String doctorid) async {
-    print(doctorid);
 
     try {
       QuerySnapshot querySnapshot = await FirebaseFirestore.instance
@@ -68,12 +66,11 @@ class AppoinmentController extends GetxController {
         DocumentSnapshot userDoc = querySnapshot.docs.first;
         Map<String, dynamic> data = userDoc.data() as Map<String, dynamic>;
         bookedTokenNumbers = data['token'];
-        print(bookedTokenNumbers);
       } else {
-        print("Error No user found with the provided ID.");
+        Get.snackbar('Error'," No user found with the provided ID.");
       }
     } catch (e) {
-      print('Error${e.toString()}');
+      Get.snackbar('Error',e.toString());
     }
   }
 
@@ -100,7 +97,7 @@ class AppoinmentController extends GetxController {
       });
       Navigator.pop(context);
     } catch (e) {
-      print('================Error ubdate appoinmet : $e');
+      Get.snackbar('Error','ubdate appoinmet : $e');
     }
   }
 }

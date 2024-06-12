@@ -7,17 +7,16 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'package:intl/intl.dart' as intl;
 import 'package:mabook/firebase.dart';
-import 'package:mabook/src/controller/chatController.dart';
+import 'package:mabook/src/controller/chat_controller.dart';
 import 'package:mabook/src/view/const/colors.dart';
 
 import 'message_field.dart';
 
 // ignore: must_be_immutable
 class ChatBubble extends StatelessWidget {
-  ChatBubble({super.key, required this.friendID, required this.friendToken});
+  ChatBubble({super.key, required this.friendID, });
   final chatCtrl = Get.put(ChatController());
   String friendID;
-  String? friendToken;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -115,7 +114,7 @@ class ChatBubble extends StatelessWidget {
                 );
               }),
         ),
-        messageField(context, friendID, friendToken)
+        messageField(context, friendID)
       ],
     );
   }

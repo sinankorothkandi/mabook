@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mabook/src/view/const/bottom_navebar.dart';
-import 'package:mabook/src/view/home/home/home.dart';
 import 'package:mabook/src/view/indroduction/intro/intro.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -26,7 +25,7 @@ class _SplashScreenState extends State<SplashScreen> {
     await Future.delayed(const Duration(milliseconds: 500));
     if (isLoggedIn) {
       // Get.to(() => const HomePage());
-      Get.to(() => CustomBottomNavigationBar());
+      Get.off(() => const CustomBottomNavigationBar());
     } else {
       Get.to(() => const intro());
     }

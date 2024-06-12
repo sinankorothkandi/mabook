@@ -45,7 +45,7 @@ class Appoinments extends StatelessWidget {
                   child: TabBarView(
                     children: [
                       compleatedTabBarView(),
-                      UpcomingtabBarView(),
+                      upcomingtabBarView(),
                       canceldtabBarView()
                     ],
                   ),

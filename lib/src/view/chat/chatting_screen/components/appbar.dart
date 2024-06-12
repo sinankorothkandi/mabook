@@ -14,11 +14,13 @@ AppBar appbar(List friendData) {
       children: [
         CircleAvatar(
           radius: 20,
-          backgroundImage: friendData[1] == null
+          backgroundImage: 
+          friendData[1] == null
               ? const AssetImage(
                   "assets/profile.jpeg",
                 ) as ImageProvider
-              : NetworkImage(friendData[1].toString()),
+              : 
+              NetworkImage(friendData[1].toString()),
         ),
         const SizedBox(
           width: 15,

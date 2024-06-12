@@ -60,7 +60,7 @@ class HealthArticlePage extends StatelessWidget {
                               radius: 23,
                               backgroundImage: article.urlToImage != null
                                   ? NetworkImage(article.urlToImage!)
-                                  : const AssetImage('assets/logo.png')
+                                  : const AssetImage('assets/noImage.jpg')
                                       as ImageProvider,
                             ),
                             title: Text(

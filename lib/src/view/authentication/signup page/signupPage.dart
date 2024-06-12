@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mabook/src/controller/login&signin/signUn_Auth.dart';
+import 'package:mabook/src/controller/login&signin/signUn_auth.dart';
 import 'package:mabook/src/view/authentication/login%20page/loginpage.dart';
 
 import 'package:mabook/src/view/const/colors.dart';

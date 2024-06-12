@@ -1,13 +1,9 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, unused_local_variable, use_build_context_synchronously, avoid_print
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mabook/src/controller/login&signin/signUn_Auth.dart';
-import 'package:mabook/src/view/authentication/AuthenticationRepository/google_signin.dart';
-import 'package:mabook/src/view/authentication/forgot%20pssword/forgotPassword.dart';
+import 'package:mabook/src/controller/login&signin/signUn_auth.dart';
+import 'package:mabook/src/view/authentication/forgot%20pssword/forgot_password.dart';
 import 'package:mabook/src/view/authentication/signup%20page/signupPage.dart';
 import 'package:mabook/src/view/const/colors.dart';
-import 'package:mabook/src/view/home/home/home.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -24,7 +20,7 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text(
+        title: const Text(
           "Login",
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
@@ -33,8 +29,8 @@ class _LoginPageState extends State<LoginPage> {
         child: SingleChildScrollView(
           child: Center(
             child: Padding(
-              padding: EdgeInsets.only(top: 20),
-              child: LoginForm(context),
+              padding: const EdgeInsets.only(top: 20),
+              child: loginForm(context),
             ),
           ),
         ),
@@ -43,7 +39,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Form LoginForm(BuildContext context) {
+  Form loginForm(BuildContext context) {
     return Form(
       key: _formKeyy,
       child: Column(
@@ -52,10 +48,10 @@ class _LoginPageState extends State<LoginPage> {
             height: 20,
           ),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 30),
+            padding: const EdgeInsets.symmetric(horizontal: 30),
             child: Row(
               children: [
-                SizedBox(
+                const SizedBox(
                   height: 48,
                   width: 47,
                   child: ClipRRect(
@@ -69,11 +65,11 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                 ),
-                SizedBox(width: 20),
+                const SizedBox(width: 20),
                 Expanded(
                   child: TextFormField(
                     controller: ctrl.loginEmail,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Email',
                       border: InputBorder.none,
                     ),
@@ -93,10 +89,10 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 30),
+            padding: const EdgeInsets.symmetric(horizontal: 30),
             child: Row(
               children: [
-                SizedBox(
+                const SizedBox(
                   height: 48,
                   width: 47,
                   child: ClipRRect(
@@ -110,11 +106,11 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                 ),
-                SizedBox(width: 20),
+                const SizedBox(width: 20),
                 Expanded(
                   child: TextFormField(
                     controller: ctrl.loginPassword,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Password',
                       border: InputBorder.none,
                     ),
@@ -130,15 +126,17 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(left: 250),
+            padding: const EdgeInsets.only(left: 250),
             child: TextButton(
                 onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (_) => forgotPassword()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (_) => const forgotPassword()));
                 },
-                child: Text('forgot password')),
+                child: const Text('forgot password')),
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           SizedBox(
@@ -158,20 +156,20 @@ class _LoginPageState extends State<LoginPage> {
                   borderRadius: BorderRadius.circular(10.0),
                 ),
               ),
-              child: Text('Login'),
+              child: const Text('Login'),
             ),
           ),
           Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            Text("Don't have an account?"),
+            const Text("Don't have an account?"),
             TextButton(
                 onPressed: () {
-                  Navigator.push(
-                      context, MaterialPageRoute(builder: (_) => signUpPage()));
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (_) => const signUpPage()));
                 },
-                child: Text('Sign Up'))
+                child: const Text('Sign Up'))
           ]),
-          SizedBox(width: 350, child: Divider()),
-          SizedBox(
+          const SizedBox(width: 350, child: Divider()),
+          const SizedBox(
             height: 20,
           ),
           Padding(
@@ -180,7 +178,7 @@ class _LoginPageState extends State<LoginPage> {
               onTap: () {
                 ctrl.signInWithGoogle();
               },
-              child: SizedBox(
+              child: const SizedBox(
                 height: 50,
                 width: 400,
                 child: Row(
@@ -199,14 +197,14 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           Padding(
             padding: const EdgeInsets.only(right: 60),
             child: GestureDetector(
               // onTap: () => ctrl.,
-              child: SizedBox(
+              child: const SizedBox(
                 height: 50,
                 width: 400,
                 child: Row(
@@ -215,7 +213,7 @@ class _LoginPageState extends State<LoginPage> {
                     Icon(
                       Icons.facebook_sharp,
                       size: 28,
-                      color: const Color.fromARGB(255, 28, 97, 153),
+                      color: Color.fromARGB(255, 28, 97, 153),
                     ),
                     Text(
                       '   Sign In With Facebook',

@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:enefty_icons/enefty_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -9,7 +8,7 @@ import 'package:mabook/src/view/const/colors.dart';
 
 //=============================================================================
 
-Column UpcomingtabBarView() {
+Column upcomingtabBarView() {
   return Column(
     children: [
       const SizedBox(
@@ -28,7 +27,9 @@ Column UpcomingtabBarView() {
           if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           }
-
+          if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+            return const Center(child: Text('There No Upcoming appointments '));
+          }
           final appoinmentDocs = snapshot.data?.docs ?? [];
 
           return Padding(
@@ -169,6 +170,10 @@ Column compleatedTabBarView() {
           if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           }
+          if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+            return const Center(
+                child: Text('There No compleated appointments'));
+          }
 
           final appoinmentDocs = snapshot.data?.docs ?? [];
 
@@ -290,7 +295,6 @@ Column compleatedTabBarView() {
 }
 
 Column canceldtabBarView() {
-  print(auth.currentUser!.uid);
   return Column(
     children: [
       const SizedBox(
@@ -309,9 +313,9 @@ Column canceldtabBarView() {
           if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           }
-          if (!snapshot.hasData || snapshot.data == null) {
+          if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
             return const Center(
-                child: Text('You are not canceld any appointment.'));
+                child: Text('There No canceld appointments yet'));
           }
           final appoinmentDocs = snapshot.data?.docs ?? [];
 
@@ -326,8 +330,7 @@ Column canceldtabBarView() {
                   final doc = appoinmentDocs[index];
                   final appointmentData = doc.data() as Map<String, dynamic>;
 
-                  final userData =
-                      appointmentData['userData'] as Map<String, dynamic>?;
+                
                   final doctorData =
                       appointmentData['doctorData'] as Map<String, dynamic>?;
 
@@ -384,7 +387,6 @@ Column canceldtabBarView() {
                                   const SizedBox(
                                     height: 8,
                                   ),
-                                 
                                   Row(
                                     children: [
                                       const CircleAvatar(

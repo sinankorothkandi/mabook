@@ -4,7 +4,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:mabook/src/controller/helth_article_controller.dart';
 import 'package:mabook/src/view/const/colors.dart';
 import 'package:mabook/src/view/home/article/d_article.dart';
-import 'package:mabook/src/view/home/article/w_helth_article.dart';
 
 class HelthArticleScreen extends StatelessWidget {
   final int articleCount;
@@ -51,7 +50,7 @@ class HelthArticleScreen extends StatelessWidget {
                             radius: 23,
                             backgroundImage: article.urlToImage != null
                                 ? NetworkImage(article.urlToImage!)
-                                : const AssetImage('assets/logo.png')
+                                : const AssetImage('assets/noImage.jpg')
                                     as ImageProvider,
                           ),
                           title: Text(

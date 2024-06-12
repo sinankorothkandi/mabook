@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mabook/src/controller/appointmentcon.dart';
 import 'package:mabook/src/view/appointments/make%20appointment/w_make_appointment.dart';
@@ -185,7 +183,6 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
       "Payment Successful",
       "Payment ID: ${response.paymentId}",
     ).then((_) {
-      print('================wwwwwwwwwwwwwwwwwwwwwwwww:');
 
       ctrl.addappoinmentToFirebase(doctorData['name'],
           doctorData['consultancyfees'], selectedDate, selectedTokens,doctorid,doctorData,context);

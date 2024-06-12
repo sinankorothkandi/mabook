@@ -10,6 +10,7 @@ import 'package:mabook/src/view/const/shimmer_effect.dart';
 import 'package:mabook/src/view/home/doctors/doctor.dart';
 import 'package:mabook/src/view/home/doctors/doctorInformation/doctor_information.dart';
 import 'package:mabook/src/view/home/hospital%20details/hospital_details.dart';
+import 'package:mabook/src/view/profile/sub%20profile/profile%20items/personal_details/personal_details.dart';
 import 'package:mabook/src/view/search%20screen/search_screen.dart';
 
 //========================CarouselSlider=======================||
@@ -179,9 +180,11 @@ AppBar appBar() {
             size: 26,
           )),
       IconButton(
-          onPressed: () {},
+          onPressed: () {
+            Get.to(const UserDetailsScreen());
+          },
           icon: const Icon(
-            EneftyIcons.notification_bing_outline,
+            EneftyIcons.profile_circle_outline,
             color: Colors.black,
             size: 26,
           ))
@@ -280,8 +283,10 @@ Column topdoctor(DoctorController doctorController) {
                       : '';
 
                   return GestureDetector(
-                    onTap: () =>
-                        Get.to(() => DoctorInformation(doctorData: doctorData, doctorid: doc.id,)),
+                    onTap: () => Get.to(() => DoctorInformation(
+                          doctorData: doctorData,
+                          doctorid: doc.id,
+                        )),
                     child: SizedBox(
                       height: 200,
                       width: 150,

@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mabook/firebase.dart';
-import 'package:mabook/src/controller/chatController.dart';
-import 'package:mabook/src/controller/login&signin/signUn_Auth.dart';
+import 'package:mabook/src/controller/chat_controller.dart';
 import 'package:mabook/src/view/chat/chatting_screen/chatting_screen.dart';
 import 'package:mabook/src/view/const/colors.dart';
 
@@ -14,7 +13,6 @@ class ChatHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final chatCtrl = Get.put(ChatController());
-    final authCtrl = Get.put(AuthController());
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -135,7 +133,6 @@ class ChatHome extends StatelessWidget {
                                       ),
                                       trailing: const Icon(Icons.navigate_next),
                                       onTap: () async {
-                                        print('===============${doc.id}');
                                         await chatCtrl.getOrCreateChat(
                                             auth.currentUser!.uid,
                                             doctorData['id']);

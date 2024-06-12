@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mabook/firebase.dart';
-import 'package:mabook/src/controller/login&signin/signUn_Auth.dart';
+import 'package:mabook/src/controller/login&signin/signUn_auth.dart';
 
 
 class ChatController extends GetxController {
@@ -70,7 +70,7 @@ class ChatController extends GetxController {
     }
   }
 
-  sentMessage(String msg, String friendID, String? friendToken) {
+  sentMessage(String msg, String friendID,) {
     try {
       if (msg.trim().isNotEmpty) {
         chatsdb.doc(chatId).update({
@@ -133,22 +133,40 @@ class ChatController extends GetxController {
         .snapshots();
   }
 
-  Future<List<List<dynamic>>> getListChatWith() async {
+ Future<List<List<dynamic>>> getListChatWith() async {
+  try {
     QuerySnapshot querySnapshot = await db
         .collection('users')
         .where('id', isEqualTo: auth.currentUser!.uid)
         .get();
+
     List<List<dynamic>> result = [];
+
     if (querySnapshot.docs.isNotEmpty) {
       for (var doc in querySnapshot.docs) {
-        Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
-        for (int i = 0; i < data['chatWith'].length; i++) {
-          final list = await authCtrl.getUserDetailsByUId(data['chatWith'][i]);
-          result.add(list);
+        Map<String, dynamic>? data = doc.data() as Map<String, dynamic>?;
+
+        if (data != null && data.containsKey('chatWith')) {
+          for (String chatWithId in data['chatWith']) {
+            final list = await authCtrl.getUserDetailsByUId(chatWithId, );
+            if (list != null) {
+              String name = list[0] ?? 'Unknown';
+              String? imageUrl = list[1];
+              String id = list[2] ?? '';
+              String? notificationToken = list.length > 3 ? list[3] : null;
+
+              result.add([name, imageUrl, id, notificationToken]);
+            }
+          }
         }
       }
     }
     return result;
+  } catch (e) {
+    Get.snackbar('Error',' in getListChatWith: ${e.toString()}');
+    rethrow;
   }
+}
+
 
 }

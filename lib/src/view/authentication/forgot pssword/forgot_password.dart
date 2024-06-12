@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mabook/src/controller/login&signin/signUn_Auth.dart';
+import 'package:mabook/src/controller/login&signin/signUn_auth.dart';
 
-import 'package:mabook/src/view/authentication/signup%20page/signupPage.dart';
 
 class forgotPassword extends StatefulWidget {
   const forgotPassword({super.key});

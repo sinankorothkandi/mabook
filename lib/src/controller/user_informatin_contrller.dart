@@ -134,7 +134,7 @@ class UserDetailsController extends GetxController {
       String password = existingData['password'] ?? '';
       String userName = existingData['userName'] ?? '';
 
-      final userData = userModele(
+      final userData = UserModele(
         id: uid,
         name: nameController.value.text,
         number: numberController.value.text,
@@ -150,14 +150,13 @@ class UserDetailsController extends GetxController {
 
       );
 
-      print("Attempting to save user details to Firestore.");
 
       await FirebaseFirestore.instance
           .collection("users")
           .doc(uid)
           .update(userData.toMap());
 
-      print("Data successfully saved to Firestore.");
+       Get.snackbar('Added',"Data successfully saved to Firestore.");
       Get.to(const CustomBottomNavigationBar());
       // clearFormControllers();
     } catch (e) {
@@ -167,8 +166,7 @@ class UserDetailsController extends GetxController {
         snackPosition: SnackPosition.BOTTOM,
         backgroundColor: Colors.red,
       );
-      print("------------------------------------");
-      print("Error adding to Firestore: $e");
+       Get.snackbar("Error ","adding to Firestore: $e");
       return;
     }
   }

@@ -2,8 +2,11 @@ import 'package:enefty_icons/enefty_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mabook/firebase.dart';
 import 'package:mabook/src/controller/appointmentcon.dart';
+import 'package:mabook/src/controller/chat_controller.dart';
 import 'package:mabook/src/view/appointments/appointment_details.dart/w_appointment_details.dart';
+import 'package:mabook/src/view/chat/chatting_screen/chatting_screen.dart';
 import 'package:mabook/src/view/const/colors.dart';
 
 class AppointmentDetails extends StatelessWidget {
@@ -20,6 +23,7 @@ class AppointmentDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ctrl = Get.put(AppoinmentController());
+    final chatCtrl = Get.put(ChatController());
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -280,7 +284,6 @@ class AppointmentDetails extends StatelessWidget {
                             color: grey,
                           ),
                         ),
-                        const SizedBox(height: 30),
                       ],
                     )
                   : Column(
@@ -293,24 +296,56 @@ class AppointmentDetails extends StatelessWidget {
                             color: green,
                           ),
                         ),
-                        const SizedBox(height: 10),
-                        SizedBox(
-                          width: double.infinity,
-                          height: 55,
-                          child: ElevatedButton(
-                            onPressed: () {
-                              showAlertDialog(context, ctrl);
-                            },
-                            style: ElevatedButton.styleFrom(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(19)),
-                              backgroundColor: green,
+                        const SizedBox(height: 20),
+                        Row(
+                          children: [
+                            SizedBox(
+                              // width: double.infinity,
+                              height: 45,
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  showAlertDialog(context, ctrl);
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(19)),
+                                  backgroundColor: green,
+                                ),
+                                child: const Text(
+                                  "Cancel ",
+                                  style: TextStyle(color: white, fontSize: 17),
+                                ),
+                              ),
                             ),
-                            child: const Text(
-                              "Cancel the Appointment ",
-                              style: TextStyle(color: white, fontSize: 18),
+                            const Spacer(),
+                            SizedBox(
+                              // width: double.infinity,
+                              height: 45,
+                              child: ElevatedButton(
+                                onPressed: () async {
+                                  await chatCtrl.getOrCreateChat(
+                                      auth.currentUser!.uid,
+                                      appointmentData?['doctorid']);
+
+                                  Get.to(
+                                    () => ChattingScreen(
+                                      friendId: appointmentData?["doctorid"],
+                                    ),
+                                    transition: Transition.rightToLeft,
+                                  );
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(19)),
+                                  backgroundColor: green,
+                                ),
+                                child: const Text(
+                                  "chat With doctor",
+                                  style: TextStyle(color: white, fontSize: 17),
+                                ),
+                              ),
                             ),
-                          ),
+                          ],
                         ),
                       ],
                     )
