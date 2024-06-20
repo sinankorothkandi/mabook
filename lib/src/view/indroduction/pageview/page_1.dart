@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mabook/src/view/indroduction/intro/intro.dart';
 
-class page_1 extends StatelessWidget {
-  const page_1({super.key});
+class Page1 extends StatelessWidget {
+  const Page1({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +12,7 @@ class page_1 extends StatelessWidget {
         actions: [
           TextButton(
               onPressed: () {
-                Get.to(() => const intro());
+                Get.to(() => const Intro());
               },
               child: const Text('Skip'))
         ],

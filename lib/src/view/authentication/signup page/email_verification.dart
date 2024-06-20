@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mabook/src/controller/login&signin/signUn_auth.dart';
+import 'package:mabook/src/controller/login&signin/signup_auth.dart';
 import 'package:mabook/src/view/const/colors.dart';
 
 class EmailVerificationPage extends StatefulWidget {
@@ -137,6 +137,7 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
                     padding: const EdgeInsets.symmetric(horizontal: 50.0),
                     child: ElevatedButton(
                       style: ButtonStyle(
+                        // ignore: deprecated_member_use
                         backgroundColor: MaterialStateProperty.all<Color>(
                           green,
                         ),

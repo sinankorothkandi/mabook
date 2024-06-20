@@ -14,9 +14,10 @@ import 'message_field.dart';
 
 // ignore: must_be_immutable
 class ChatBubble extends StatelessWidget {
-  ChatBubble({super.key, required this.friendID, });
+  ChatBubble({super.key, required this.friendID});
   final chatCtrl = Get.put(ChatController());
   String friendID;
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -42,16 +43,46 @@ class ChatBubble extends StatelessWidget {
                     ),
                   ));
                 }
-                return ListView(
-                  reverse: true,
-                  physics: const BouncingScrollPhysics(),
-                  children: snapshot.data!.docs.map((document) {
-                    var data = document.data() as Map<String, dynamic>;
-                    var t = data['created_on'] == null
-                        ? DateTime.now()
-                        : data['created_on'].toDate();
-                    var time = intl.DateFormat("h:mma").format(t);
-                    return Column(
+
+                List<QueryDocumentSnapshot> docs = snapshot.data!.docs;
+                List<Widget> messageWidgets = [];
+                DateTime? lastMessageDate;
+
+                for (int i = 0; i < docs.length; i++) {
+                  var data = docs[i].data() as Map<String, dynamic>;
+                  var t = data['created_on'] == null
+                      ? DateTime.now()
+                      : data['created_on'].toDate();
+                  var time = intl.DateFormat("h:mma").format(t);
+                  var date = intl.DateFormat("yMMMMd").format(t);
+
+                  bool showDate = false;
+                  if (lastMessageDate == null ||
+                      lastMessageDate.day != t.day ||
+                      lastMessageDate.month != t.month ||
+                      lastMessageDate.year != t.year) {
+                    showDate = true;
+                    lastMessageDate = t;
+                  }
+
+                  if (showDate) {
+                    messageWidgets.add(
+                      Center(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 10.0),
+                          child: Text(
+                            date,
+                            style: GoogleFonts.poppins(
+                                color: AppThemeData.themeColor,
+                                fontWeight: FontWeight.w600),
+                          ),
+                        ),
+                      ),
+                    );
+                  }
+
+                  messageWidgets.add(
+                    Column(
                       crossAxisAlignment:
                           data['fromId'] == auth.currentUser!.uid
                               ? CrossAxisAlignment.end
@@ -69,8 +100,7 @@ class ChatBubble extends StatelessWidget {
                               margin: const EdgeInsets.symmetric(
                                   vertical: 3, horizontal: 10),
                               decoration: BoxDecoration(
-                                  color: document['fromId'] ==
-                                          auth.currentUser!.uid
+                                  color: data['fromId'] == auth.currentUser!.uid
                                       ? AppThemeData.themeColor
                                       : AppThemeData.background,
                                   borderRadius: BorderRadius.circular(20),
@@ -82,13 +112,13 @@ class ChatBubble extends StatelessWidget {
                                     maxWidth:
                                         MediaQuery.of(context).size.width *
                                             0.7),
-                                child: document['image_url'] != ""
-                                    ? Image.network(document['image_url'])
+                                child: data['image_url'] != ""
+                                    ? Image.network(data['image_url'])
                                     : Text(
-                                        document['msg'],
+                                        data['msg'],
                                         style: GoogleFonts.poppins(
                                             fontSize: 18,
-                                            color: document['fromId'] ==
+                                            color: data['fromId'] ==
                                                     auth.currentUser!.uid
                                                 ? AppThemeData.background
                                                 : AppThemeData.themeColor),
@@ -109,12 +139,18 @@ class ChatBubble extends StatelessWidget {
                           ),
                         ),
                       ],
-                    );
-                  }).toList(),
+                    ),
+                  );
+                }
+
+                return ListView(
+                  reverse: true,
+                  physics: const BouncingScrollPhysics(),
+                  children: messageWidgets,
                 );
               }),
         ),
-        messageField(context, friendID)
+        messageField(context, friendID),
       ],
     );
   }

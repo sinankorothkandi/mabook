@@ -164,3 +164,4 @@ Column detailsDisplay(Map<String, dynamic> doctorData) {
 //     ),
 //   );
 // }
+

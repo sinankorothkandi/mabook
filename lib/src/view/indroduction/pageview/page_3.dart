@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mabook/src/view/indroduction/intro/intro.dart';
 
-class page_3 extends StatelessWidget {
-  const page_3({super.key});
+class Page3 extends StatelessWidget {
+  const Page3({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,7 @@ class page_3 extends StatelessWidget {
               ),
               ElevatedButton(
                 onPressed: () {
-                  Get.to(() => const intro());
+                  Get.to(() => const Intro());
                 },
                 style: ElevatedButton.styleFrom(
                   foregroundColor: Colors.white,

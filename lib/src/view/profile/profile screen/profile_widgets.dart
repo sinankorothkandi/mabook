@@ -75,7 +75,7 @@ Container profileItemList(BuildContext context, ctrl) {
           ),
           ListTile(
             onTap: () {
-              Get.to(() => const PrivacyPolicyScreen());
+              Get.to(() => const PrivacyPolicy());
             },
             leading: const Icon(Icons.privacy_tip_outlined, color: green),
             title: const Text(
@@ -141,7 +141,7 @@ void showSignOutDialog(
   );
 }
 
-void signOut(BuildContext context) async {
+void signOut(context) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   await prefs.setBool('isLoggedIn', false);
   Navigator.pushReplacement(

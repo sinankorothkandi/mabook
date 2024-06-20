@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mabook/src/view/const/colors.dart';
 
@@ -18,7 +19,7 @@ StreamBuilder<DocumentSnapshot<Object?>> streamBuilder() {
       }
 
       if (snapshot.hasError) {
-        print("Error retrieving data from Firestore: ${snapshot.error}");
+        Get.snackbar("Error"," retrieving data from Firestore: ${snapshot.error}");
         return const Center(
           child: Text("An error occurred. Please try again later."),
         );
@@ -39,7 +40,6 @@ StreamBuilder<DocumentSnapshot<Object?>> streamBuilder() {
                   .where((url) => url.startsWith("http"))
                   .toList()
               : [];
-      print(imageUrls);
 
       final address =
           data.containsKey("address") ? data["address"] : "No address";

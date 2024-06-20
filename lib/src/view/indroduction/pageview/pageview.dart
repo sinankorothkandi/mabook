@@ -4,8 +4,8 @@ import 'package:mabook/src/view/indroduction/pageview/page_2.dart';
 import 'package:mabook/src/view/indroduction/pageview/page_3.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-class pageView extends StatelessWidget {
-   pageView({super.key});
+class PageViewScreen extends StatelessWidget {
+   PageViewScreen({super.key});
   final _controller = PageController();
 
   @override
@@ -20,9 +20,9 @@ class pageView extends StatelessWidget {
               child: PageView(
                 controller: _controller,
                 children:const [
-                  page_1(),
-                  page_2(),
-                  page_3()
+                  Page1(),
+                  Page2(),
+                  Page3()
                 ],
               ),
             ),

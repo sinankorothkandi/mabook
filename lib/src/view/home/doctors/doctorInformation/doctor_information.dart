@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
@@ -17,6 +15,7 @@ class DoctorInformation extends StatefulWidget {
       {super.key, required this.doctorData, required this.doctorid});
 
   @override
+  // ignore: library_private_types_in_public_api
   _DoctorInformationState createState() => _DoctorInformationState();
 }
 
@@ -43,8 +42,7 @@ class _DoctorInformationState extends State<DoctorInformation> {
       setState(() {
         selectedDate = picked;
         selectedDay = DateFormat('EEEE').format(picked);
-        print('Selected Date: $selectedDate');
-        print('Selected Day: $selectedDay');
+      
       });
     }
   }
@@ -172,6 +170,7 @@ class _DoctorInformationState extends State<DoctorInformation> {
                             await ctrl.fetchAppointmentDetails(
                                 selectedDate, widget.doctorid);
 
+                            // ignore: unrelated_type_equality_checks
                             if (selectedToken == ctrl.bookedTokenNumbers) {
                               Get.snackbar(
                                   'Error', 'This token is already booked.');

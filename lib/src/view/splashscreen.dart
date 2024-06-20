@@ -27,7 +27,7 @@ class _SplashScreenState extends State<SplashScreen> {
       // Get.to(() => const HomePage());
       Get.off(() => const CustomBottomNavigationBar());
     } else {
-      Get.to(() => const intro());
+      Get.to(() => const Intro());
     }
   }
 

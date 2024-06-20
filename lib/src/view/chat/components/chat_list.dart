@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mabook/src/controller/chat_controller.dart';
-import 'package:mabook/src/controller/login&signin/signUn_auth.dart';
+import 'package:mabook/src/controller/login&signin/signup_auth.dart';
 import 'package:mabook/src/view/chat/components/message_bubble.dart';
 import 'package:mabook/src/view/const/colors.dart';
 
@@ -49,7 +49,6 @@ class ChatList extends StatelessWidget {
     }
 
     if (snapshot.hasError) {
-      print('Error: ${snapshot.error}');
       return const Center(child: Text('Something went wrong'));
     }
 
@@ -64,8 +63,6 @@ class ChatList extends StatelessWidget {
       itemBuilder: (ctx, index) {
         final userDetails = chatList[index];
 
-        // Check the userDetails content
-        print('User Details: $userDetails');
 
         return messageBubble(
           userDetails[0], 

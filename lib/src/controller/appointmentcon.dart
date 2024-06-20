@@ -62,12 +62,13 @@ class AppoinmentController extends GetxController {
           .where('date', isEqualTo: selectedDate.toString())
           .where('doctorid', isEqualTo: doctorid)
           .get();
+          
       if (querySnapshot.docs.isNotEmpty) {
         DocumentSnapshot userDoc = querySnapshot.docs.first;
         Map<String, dynamic> data = userDoc.data() as Map<String, dynamic>;
         bookedTokenNumbers = data['token'];
       } else {
-        Get.snackbar('Error'," No user found with the provided ID.");
+        // print("Error  No user found with the provided ID.");
       }
     } catch (e) {
       Get.snackbar('Error',e.toString());

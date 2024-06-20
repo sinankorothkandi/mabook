@@ -12,100 +12,119 @@ class FilterdDoctor extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          title: Text(
+            department,
+            style: GoogleFonts.poppins(
+                fontSize: 20, color: black, fontWeight: FontWeight.w500),
+          ),
+          leading: IconButton(
+              onPressed: () {
+                Get.back();
+              },
+              icon: const Icon(Icons.navigate_before)),
+        ),
         body: StreamBuilder<QuerySnapshot>(
-      stream: FirebaseFirestore.instance
-          .collection('doctoreCollection')
-          .where('department', isEqualTo: department)
-          .snapshots(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
-        }
-        if (snapshot.hasError) {
-          return Center(child: Text('Error: ${snapshot.error}'));
-        }
+          stream: FirebaseFirestore.instance
+              .collection('doctoreCollection')
+              .where('department', isEqualTo: department)
+              .snapshots(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            }
+            if (snapshot.hasError) {
+              return Center(child: Text('Error: ${snapshot.error}'));
+            }
 
-        final doctorDocs = snapshot.data?.docs ?? [];
+            final doctorDocs = snapshot.data?.docs ?? [];
 
-        if (doctorDocs.isEmpty) {
-          return Center(
-            child: Image.asset(
-              'assets/not found1.jpg',
-              height: MediaQuery.of(context).size.height * 0.7,
-            ),
-          );
-        }
+            if (doctorDocs.isEmpty) {
+              return Center(
+                child: Image.asset(
+                  'assets/not found1.jpg',
+                  height: MediaQuery.of(context).size.height * 0.7,
+                ),
+              );
+            }
 
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-          child: ListView.builder(
-            itemCount: doctorDocs.length,
-            itemBuilder: (context, index) {
-              final doc = doctorDocs[index];
-              final doctorData = doc.data() as Map<String, dynamic>;
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+              child: ListView.builder(
+                itemCount: doctorDocs.length,
+                itemBuilder: (context, index) {
+                  final doc = doctorDocs[index];
+                  final doctorData = doc.data() as Map<String, dynamic>;
 
-              return SizedBox(
-                height: MediaQuery.of(context).size.height * 0.17,
-                width: double.infinity,
-                child: GestureDetector(
-                  onTap: () {
-                    Get.to(
-                        () => DoctorInformation(
-                              doctorData: doctorData, doctorid: doc.id,
-                            ),
-                        transition: Transition.rightToLeftWithFade);
-                  },
-                  child: Card(
-                    elevation: 3,
-                    child: Row(
-                      children: [
-                        const SizedBox(width: 10),
-                        CircleAvatar(
-                          radius: 55,
-                          backgroundImage: NetworkImage(doctorData['profile']),
-                        ),
-                        const SizedBox(width: 25),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                  return SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.17,
+                    width: double.infinity,
+                    child: GestureDetector(
+                      onTap: () {
+                        Get.to(
+                            () => DoctorInformation(
+                                  doctorData: doctorData,
+                                  doctorid: doc.id,
+                                ),
+                            transition: Transition.rightToLeftWithFade);
+                      },
+                      child: Card(
+                        elevation: 3,
+                        child: Row(
                           children: [
-                            const SizedBox(height: 25),
-                            Title(
-                              color: black,
-                              child: Text(
-                                "Dr.${doctorData['name']}",
-                                style: GoogleFonts.poppins(
-                                    fontSize: 23,
-                                    color: const Color.fromARGB(255, 58, 58, 58),
-                                    fontWeight: FontWeight.w500),
-                              ),
+                            const SizedBox(width: 10),
+                            CircleAvatar(
+                              backgroundColor: Colors.grey,
+                              radius: 55,
+                              backgroundImage:
+                                  NetworkImage(doctorData['profile']),
                             ),
-                            Text(
-                              doctorData.containsKey("department")
-                                  ? doctorData["department"].toString()
-                                  : "N/A",
-                              style: GoogleFonts.poppins(
-                                  fontSize: 17, color: Colors.grey),
-                            ),
-                            SizedBox(
-                              height: MediaQuery.of(context).size.height * 0.02,
-                            ),
-                            Text(
-                              'experience:  ${doctorData["experience"].toString()} years',
-                              style: GoogleFonts.poppins(
-                                  fontSize: 17,
-                                  color: const Color.fromARGB(255, 83, 83, 83)),
+                            const SizedBox(width: 25),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const SizedBox(height: 25),
+                                Title(
+                                  color: black,
+                                  child: Text(
+                                    "Dr.${doctorData['name']}",
+                                    style: GoogleFonts.poppins(
+                                        fontSize: 23,
+                                        color: const Color.fromARGB(
+                                            255, 58, 58, 58),
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                ),
+                                Text(
+                                  doctorData.containsKey("department")
+                                      ? doctorData["department"].toString()
+                                      : "N/A",
+                                  style: GoogleFonts.poppins(
+                                      fontSize: 17, color: Colors.grey),
+                                ),
+                                SizedBox(
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.02,
+                                ),
+                                Text(
+                                  'experience:  ${doctorData["experience"].toString()} years',
+                                  style: GoogleFonts.poppins(
+                                      fontSize: 17,
+                                      color: const Color.fromARGB(
+                                          255, 83, 83, 83)),
+                                ),
+                              ],
                             ),
                           ],
                         ),
-                      ],
+                      ),
                     ),
-                  ),
-                ),
-              );
-            },
-          ),
-        );
-      },
-    ));
+                  );
+                },
+              ),
+            );
+          },
+        ));
   }
 }

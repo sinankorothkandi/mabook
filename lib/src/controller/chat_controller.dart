@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mabook/firebase.dart';
-import 'package:mabook/src/controller/login&signin/signUn_auth.dart';
+import 'package:mabook/src/controller/login&signin/signup_auth.dart';
 
 
 class ChatController extends GetxController {

@@ -1,7 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mabook/firebase_options.dart';
+import 'package:mabook/src/view/firebase/firebase_options.dart';
 import 'package:mabook/src/view/const/colors.dart';
 import 'package:mabook/src/view/splashscreen.dart';
 

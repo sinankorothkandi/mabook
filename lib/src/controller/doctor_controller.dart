@@ -10,24 +10,24 @@ class DoctorController extends GetxController {
   );
   RxList<QueryDocumentSnapshot> searchResults = <QueryDocumentSnapshot>[].obs;
 
-  void searchDoctors(String query) async {
-    if (query.isEmpty) {
-      searchResults.clear();
-      return;
-    }
+  // void searchDoctors(String query) async {
+  //   if (query.isEmpty) {
+  //     searchResults.clear();
+  //     return;
+  //   }
 
-    try {
-      final result = await _firestore
-          .collection('doctoreCollection')
-          .where('name', isGreaterThanOrEqualTo: query)
-          .where('name', isLessThanOrEqualTo: query + '\uf8ff')
-          .get();
+  //   try {
+  //     final result = await _firestore
+  //         .collection('doctoreCollection')
+  //         .where('name', isGreaterThanOrEqualTo: query)
+  //         .where('name', isLessThanOrEqualTo: query + '\uf8ff')
+  //         .get();
 
-      searchResults.assignAll(result.docs);
-    } catch (e) {
-      Get.snackbar("Error"," searching doctors: $e");
-    }
-  }
+  //     searchResults.assignAll(result.docs);
+  //   } catch (e) {
+  //     Get.snackbar("Error"," searching doctors: $e");
+  //   }
+  // }
 
   Future<void> deleteDoctor(String docId) async {
     try {

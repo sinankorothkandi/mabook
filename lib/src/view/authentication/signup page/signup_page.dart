@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mabook/src/controller/login&signin/signUn_auth.dart';
+import 'package:mabook/src/controller/login&signin/signup_auth.dart';
 import 'package:mabook/src/view/authentication/login%20page/loginpage.dart';
 
 import 'package:mabook/src/view/const/colors.dart';
 
-class signUpPage extends StatefulWidget {
-  const signUpPage({super.key});
+class SignUpPage extends StatefulWidget {
+  const SignUpPage({super.key});
 
   @override
-  State<signUpPage> createState() => _LoginPageState();
+  State<SignUpPage> createState() => _SignUpPageState();
 }
 
-class _LoginPageState extends State<signUpPage> {
+class _SignUpPageState extends State<SignUpPage> {
   final GlobalKey<FormState> _formKeyy = GlobalKey<FormState>();
   final ctrl = Get.put(AuthController());
   bool? isAgree = false;

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:mabook/src/view/authentication/login%20page/loginpage.dart';
-import 'package:mabook/src/view/authentication/signup%20page/signupPage.dart';
+import 'package:mabook/src/view/authentication/signup%20page/signup_page.dart';
 
-class intro extends StatelessWidget {
-  const intro({super.key});
+class Intro extends StatelessWidget {
+  const Intro({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +73,7 @@ class intro extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const signUpPage()),
+                    MaterialPageRoute(builder: (context) => const SignUpPage()),
                   );
                 },
                 style: ElevatedButton.styleFrom(

@@ -37,7 +37,7 @@ StreamBuilder<DocumentSnapshot<Object?>> streamBuilder() {
       }
 
       if (snapshot.hasError) {
-        print("Error retrieving data from Firestore: ${snapshot.error}");
+        Get.snackbar("Error"," retrieving data from Firestore: ${snapshot.error}");
         return const Center(
           child: Text("An error occurred. Please try again later."),
         );
@@ -58,7 +58,6 @@ StreamBuilder<DocumentSnapshot<Object?>> streamBuilder() {
                   .where((url) => url.startsWith("http"))
                   .toList()
               : [];
-      print(imageUrls);
 
       return SingleChildScrollView(
         child: Column(

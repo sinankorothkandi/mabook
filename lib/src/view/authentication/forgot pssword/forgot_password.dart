@@ -1,16 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mabook/src/controller/login&signin/signUn_auth.dart';
+import 'package:mabook/src/controller/login&signin/signup_auth.dart';
 
+class ForgotPassword extends StatelessWidget {
+  const ForgotPassword({super.key});
 
-class forgotPassword extends StatefulWidget {
-  const forgotPassword({super.key});
-
-  @override
-  State<forgotPassword> createState() => _introState();
-}
-
-class _introState extends State<forgotPassword> {
   @override
   Widget build(BuildContext context) {
     final ctrl = Get.put(AuthController());
@@ -28,6 +22,7 @@ class _introState extends State<forgotPassword> {
               const SizedBox(
                 height: 60,
               ),
+              // ignore: avoid_unnecessary_containers
               Container(
                 child: Column(
                   children: [
